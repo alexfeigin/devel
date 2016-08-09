@@ -26,9 +26,13 @@ EOF
 chmod +x /etc/profile.d/java.sh
 chmod +x /etc/profile.d/maven.sh
 
+develuser="devel"
+develpwd="devel"
+develvncpwd="$develpwd"pass
+
 # add user devel and setup vnc
-useradd -c "User devel" devel
-echo devel | passwd devel --stdin
+useradd -c "User $develuser" $develuser
+echo $develpwd | passwd $develuser --stdin
 sed -i "s:^#%wheel:UNCOMMENT%wheel:g" /etc/sudoers
 sed -i "s:^%wheel:#%wheel:g" /etc/sudoers
 sed -i "s:^UNCOMMENT%wheel:%wheel:g" /etc/sudoers
@@ -37,15 +41,15 @@ cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.servi
 cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:2.service
 sed -i "s:<USER>:root:g" /etc/systemd/system/vncserver@:1.service
 sed -i "s:/home/root:/root:g" /etc/systemd/system/vncserver@:1.service
-sed -i "s:<USER>:devel:g" /etc/systemd/system/vncserver@:2.service
+sed -i "s:<USER>:$develuser:g" /etc/systemd/system/vncserver@:2.service
 sed -i 's:vncserver %i":vncserver %i -geometry 1920x1080":g' /etc/systemd/system/vncserver@:1.service
 sed -i 's:vncserver %i":vncserver %i -geometry 1920x1080":g' /etc/systemd/system/vncserver@:2.service
 systemctl daemon-reload
 systemctl enable vncserver@:1.service
 systemctl enable vncserver@:2.service
-mkdir -p /home/devel/.vnc
+mkdir -p /home/$develuser/.vnc
 mkdir -p /root/.vnc
-echo develpass | vncpasswd -f > /home/devel/.vnc/passwd
+echo $develvncpwd | vncpasswd -f > /home/$develuser/.vnc/passwd
 echo rootpass | vncpasswd -f > /root/.vnc/passwd
 
 # override screen PROMPT_COMMAND
@@ -53,9 +57,10 @@ echo "unset PROMPT_COMMAND" > /etc/sysconfig/bash-prompt-screen
 chmod +x /etc/sysconfig/bash-prompt-screen
 
 
-mkdir -p /home/devel/.m2
-wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
+mkdir -p /home/$develuser/.m2
+wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
 
+su $develuser -l -c logout
 echo 'export MAVEN_OPTS='"'"'-Xmx1048m -XX:MaxPermSize=512m'"'" >> /home/devel/.bashrc
 
 # disable firewalld and NetworkManager enable legacy network
