@@ -48,9 +48,9 @@ sed -i 's:vncserver %i":vncserver %i -geometry 1920x1080":g' /etc/systemd/system
 systemctl daemon-reload
 systemctl enable vncserver@:1.service
 systemctl enable vncserver@:2.service
-mkdir -p /home/$develuser/.vnc
+runuser -l $develuser -c "mkdir -p /home/$develuser/.vnc"
 mkdir -p /root/.vnc
-echo $develvncpwd | vncpasswd -f > /home/$develuser/.vnc/passwd
+echo $develvncpwd | vncpasswd -f > /home/$develuser/.vnc/passwd; chown $develuser /home/$develuser/.vnc/passwd; chgrp $develuser /home/$develuser/.vnc/passwd;
 echo rootpass | vncpasswd -f > /root/.vnc/passwd
 
 # override screen PROMPT_COMMAND
@@ -58,7 +58,7 @@ echo "unset PROMPT_COMMAND" > /etc/sysconfig/bash-prompt-screen
 chmod +x /etc/sysconfig/bash-prompt-screen
 
 
-mkdir -p /home/$develuser/.m2
+runuser -l $develuser -c "mkdir -p /home/$develuser/.m2"
 wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
 
 su $develuser -l -c logout
