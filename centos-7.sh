@@ -17,11 +17,11 @@ ln -s /opt/apache-maven-3.3.9 /usr/local/maven
 popd
 cat << EOF > /etc/profile.d/java.sh
 export JAVA_HOME=/usr/local/java
-export PATH=${JAVA_HOME}/bin:${PATH}
+export PATH=\${JAVA_HOME}/bin:\${PATH}
 EOF
 cat << EOF > /etc/profile.d/maven.sh
 export M2_HOME=/usr/local/maven
-export PATH=${M2_HOME}/bin:${PATH}
+export PATH=\${M2_HOME}/bin:\${PATH}
 EOF
 chmod +x /etc/profile.d/java.sh
 chmod +x /etc/profile.d/maven.sh
