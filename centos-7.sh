@@ -3,7 +3,8 @@ yum install -y https://www.rdoproject.org/repos/rdo-release.rpm
 yum update -y
 yum groupinstall -y "Development Tools" "GNOME Desktop" "Graphical Administration Tools"
 yum install -y network-tools wget vim tigervnc-server openvswitch screen wireshark-gnome
-
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+yum install -y google-chrome-stable_current_x86_64.rpm
 # Download and install maven 3.3.9 and java 1.8.0_77
 pushd /opt
 wget http://download.oracle.com/otn/java/jdk/8u77-b03/jdk-8u77-linux-x64.tar.gz
@@ -34,6 +35,7 @@ develvncpwd="$develpwd"pass
 useradd -c "User $develuser" $develuser
 echo $develpwd | passwd $develuser --stdin
 usermod -aG wheel $develuser
+#ssh -X devel@0
 sed -i "s:^# %wheel:UNCOMMENT%wheel:g" /etc/sudoers
 sed -i "s:^%wheel:# %wheel:g" /etc/sudoers
 sed -i "s:^UNCOMMENT%wheel:%wheel:g" /etc/sudoers
@@ -52,6 +54,7 @@ runuser -l $develuser -c "mkdir -p /home/$develuser/.vnc"
 mkdir -p /root/.vnc
 echo $develvncpwd | vncpasswd -f > /home/$develuser/.vnc/passwd; chown $develuser /home/$develuser/.vnc/passwd; chgrp $develuser /home/$develuser/.vnc/passwd;
 echo rootpass | vncpasswd -f > /root/.vnc/passwd
+chmod 600 /home/$develuser/.vnc/passwd /root/.vnc/passwd
 
 # override screen PROMPT_COMMAND
 echo "unset PROMPT_COMMAND" > /etc/sysconfig/bash-prompt-screen
