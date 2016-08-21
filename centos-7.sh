@@ -3,8 +3,8 @@
 yum update -y
 yum install -y wget
 
-# Download and unpack maven java eclipse chrome - and yum install devel tools and desktop async
-for part in desktop-tools-yum maven java eclipse chrome-rpm; do
+# Download and unpack maven jdk eclipse chrome - and yum install devel tools and desktop async
+for part in desktop-tools-yum maven jdk eclipse chrome-rpm; do
 	wget https://rawgit.com/alexfeigin/devel/master/get-$part.sh
 	chmod +x ./get-$part.sh
 	./get-$part.sh &
@@ -87,8 +87,9 @@ EOF
 # Create an identity file ssh-keygen
 runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''"
 
-# TODO: setup devel username and password from input
-# TODO: setup git user.name and user.email from input
+# TODO: Make script quiet - only output to screen intresting info or progress
+# TODO: Setup devel username and password from input
+# TODO: Setup git user.name and user.email from input
 # TODO: Clone into an opendaylight 'Hello World' project and add it to eclipse workspace
 
 
