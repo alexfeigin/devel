@@ -7,7 +7,7 @@ yum install -y wget
 for part in desktop-tools-yum maven jdk eclipse chrome-rpm; do
 	wget https://rawgit.com/alexfeigin/devel/master/get-$part.sh
 	chmod +x ./get-$part.sh
-	./get-$part.sh &
+	./get-$part.sh > $part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
@@ -23,6 +23,8 @@ usermod -aG wheel $develuser
 sed -i "s:^# %wheel:UNCOMMENT%wheel:g" /etc/sudoers
 sed -i "s:^%wheel:# %wheel:g" /etc/sudoers
 sed -i "s:^UNCOMMENT%wheel:%wheel:g" /etc/sudoers
+
+su $develuser -l -c logout
 
 # Create vnc server services for root :1 and for devel user :2
 cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
@@ -83,6 +85,9 @@ Terminal=false
 Type=Application
 X-GNOME-Autostart-enabled=true
 EOF
+
+# Fix "Authentication is required to set the network proxy used for downloading packages" message
+echo "X-GNOME-Autostart-enabled=true" >> /etc/xdg/autostart/gnome-software-service.desktop
 
 # Create an identity file ssh-keygen
 runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''"
