@@ -8,4 +8,5 @@ http://tinyurl.com/afc7devel
 ```bash
 curl -sL http://tinyurl.com/afc7devel > init.sh
 chmod +x init.sh
-./init.sh```
+./init.sh
+```
