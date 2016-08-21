@@ -7,6 +7,7 @@ yum install -y wget
 for part in desktop-tools-yum maven jdk eclipse chrome-rpm; do
 	wget https://rawgit.com/alexfeigin/devel/master/get-$part.sh
 	chmod +x ./get-$part.sh
+	echo getting $part
 	./get-$part.sh > $part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
