@@ -63,7 +63,7 @@ chmod +x /etc/sysconfig/bash-prompt-screen
 
 
 runuser -l $develuser -c "mkdir -p /home/$develuser/.m2"
-wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
+wget -q -O - https://cdn.rawgit.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
 
 su $develuser -l -c logout
 echo 'export MAVEN_OPTS='"'"'-Xmx1048m -XX:MaxPermSize=512m'"'" >> /home/devel/.bashrc
