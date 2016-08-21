@@ -75,5 +75,7 @@
 	cur = "!(if ! git diff HEAD --quiet; then echo -e \"HEAD - \\033[1;31mLocal changes\\033[m\"; echo; git --no-pager diff --name-status HEAD; fi; git --no-pager logn $(git br)..)|less -+C -FXRSM"
 	sync = "!git verifyref && git push -q $(git --version | grep -q ' 1.7' || echo --prune) sdg \"+refs/heads/*:refs/remotes/$(git selfname)/*\" && { git fetch --prune sdg || { git remote prune sdg && git fetch --prune sdg; } }"
 	steal = "!f() { name=${2:+$1}; name=${name:-$(git rr)}; br=${2:-$1}; git fetch \"$name\" --prune && git checkout --no-track -b \"$br\" \"$name/$br\" && git push \"$name\" \":$br\"; }; f"
+	cleanf = clean -xdf
+	cleanff = clean -Xdf
 	whoami = "!f() { git config --list | grep ^user.name | sed 's/user.name=//g'; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"

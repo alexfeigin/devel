@@ -5,7 +5,7 @@ yum install -y wget
 
 # Download and unpack maven jdk eclipse chrome - and yum install devel tools and desktop async
 for part in desktop-tools-yum maven jdk eclipse chrome-rpm; do
-	wget https://rawgit.com/alexfeigin/devel/master/get-$part.sh
+	wget -q https://rawgit.com/alexfeigin/devel/master/get-$part.sh
 	chmod +x ./get-$part.sh
 	echo getting $part
 	./get-$part.sh > $part.log 2>&1 &
@@ -44,8 +44,8 @@ echo $develvncpwd | vncpasswd -f > /home/$develuser/.vnc/passwd; chown $develuse
 echo rootpass | vncpasswd -f > /root/.vnc/passwd
 chmod 600 /home/$develuser/.vnc/passwd /root/.vnc/passwd
 
-# Override screen PROMPT_COMMAND
-echo "unset PROMPT_COMMAND" > /etc/sysconfig/bash-prompt-screen
+# Override screen PROMPT_COMMAND with hack for backtick display branch
+echo "echo \$PWD > /tmp/currpwd" > /etc/sysconfig/bash-prompt-screen
 chmod +x /etc/sysconfig/bash-prompt-screen
 
 # Maven settings.xml for opendaylight devs
@@ -88,10 +88,42 @@ X-GNOME-Autostart-enabled=true
 EOF
 
 # Fix "Authentication is required to set the network proxy used for downloading packages" message
-echo "X-GNOME-Autostart-enabled=true" >> /etc/xdg/autostart/gnome-software-service.desktop
+echo "X-GNOME-Autostart-enabled=false" >> /etc/xdg/autostart/gnome-software-service.desktop
 
 # Create an identity file ssh-keygen
 runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''"
+
+# Create sources dir and clone unimgr
+su $develuser -c 'mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;'
+
+# Screenrc
+cat << EOF > /tmp/screenrc
+hardstatus alwayslastline
+hardstatus alwayslastline "%-w%{.bw}%n %t%{-}%+w %-60= %1\`"
+defnonblock on
+altscreen on
+bind X only
+defscrollback 3000
+deflogin off
+startup_message off
+backtick 1 0 1 /home/$develuser/git-current-branch.sh
+
+screen -t "$develuser" sh -c 'cd ~; exec /bin/bash'
+screen -t "unimgr" sh -c 'cd ~/sources/unimgr; exec /bin/bash'
+EOF
+
+su $develuser -c "cat /tmp/screenrc > /home/$develuser/.screenrc"
+
+echo << EOF > /tmp/gcbsh
+cd \$(cat /tmp/currdir)
+git branch 2>/dev/null | grep '*' | sed 's/\* //'
+EOF
+
+su $develuser -c "cat /tmp/gcbsh > /home/$develuser/git-current-branch.sh"
+chmod +x /home/$develuser/git-current-branch.sh
+
+# Modify PS1 in bashrc
+echo "export PS1='"'[\u@\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:$PWD]\$ '"'" >> /home/$develuser/.bashrc
 
 # TODO: Make script quiet - only output to screen intresting info or progress
 # TODO: Setup devel username and password from input
