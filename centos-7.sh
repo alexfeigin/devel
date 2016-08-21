@@ -1,3 +1,4 @@
+#!/bin/bash
 # install vnc server gnome and dev tools
 yum install -y https://www.rdoproject.org/repos/rdo-release.rpm
 yum update -y
@@ -7,7 +8,7 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
 yum install -y google-chrome-stable_current_x86_64.rpm
 # Download and install maven 3.3.9 and java 1.8.0_77
 pushd /opt
-wget http://download.oracle.com/otn/java/jdk/8u77-b03/jdk-8u77-linux-x64.tar.gz
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-linux-x64.tar.gz
 wget http://apache.spd.co.il/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 tar xzf jdk-8u77-linux-x64.tar.gz
 tar xzf apache-maven-3.3.9-bin.tar.gz
