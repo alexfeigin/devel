@@ -76,3 +76,31 @@ systemctl stop NetworkManager
 systemctl start network
 systemctl enable network
 
+# setup terminal shortcut
+cat << EOF > term-scut.sh
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal &"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "<Primary><Alt>t"
+EOF
+chmod +x term-scut.sh
+./term-scut.sh
+fpath=$(readlink -f ./term-scut.sh)
+runuser -l $develuser -c $fpath
+
+# setup eclipse
+pushd /opt
+wget http://mirror.switch.ch/eclipse/technology/epp/downloads/release/neon/R/eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
+tar xzf eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
+mv eclipse eclipse-neon 
+ln -s /opt/eclipse-neon /usr/local/eclipse
+rm -f eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
+popd
+cat << EOF > /etc/profile.d/eclipse.sh
+export ECLIPSE_HOME=/usr/local/eclipse
+export PATH=\${ECLIPSE_HOME}:\${PATH}
+EOF
+chmod +x /etc/profile.d/eclipse.sh
+
+# ssh-keygen
+runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''"
