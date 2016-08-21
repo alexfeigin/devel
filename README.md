@@ -5,6 +5,7 @@ This will hold various bash scripts to provision development machines from minim
 http://tinyurl.com/afc7devel
 
 # example use
+```bash
 curl -sL http://tinyurl.com/afc7devel > init.sh
 chmod +x init.sh
-./init.sh
+./init.sh```
