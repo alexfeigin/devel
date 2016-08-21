@@ -29,7 +29,7 @@ chmod +x /etc/profile.d/maven.sh
 
 develuser="devel"
 develpwd="devel"
-develvncpwd="$develpwd"pass
+develvncpwd="develpass"
 
 # add user devel and setup vnc
 useradd -c "User $develuser" $develuser
