@@ -100,7 +100,7 @@ echo Create an identity file ssh-keygen
 runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''" > id.log 2>&1
 
 echo Create sources dir and clone unimgr
-su $develuser -c 'mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;' > clone.log 2>&1
+su $develuser -c "mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;" > clone.log 2>&1
 
 echo generate /home/$develuser/.screenrc
 cat << EOF > /tmp/screenrc
@@ -120,8 +120,8 @@ EOF
 
 su $develuser -c "cat /tmp/screenrc > /home/$develuser/.screenrc"
 
-echo << EOF > /tmp/gcbsh
-cd \$(cat /tmp/currdir)
+cat << EOF > /tmp/gcbsh
+cd \$(cat /tmp/currpwd)
 git branch 2>/dev/null | grep '*' | sed 's/\* //'
 EOF
 
