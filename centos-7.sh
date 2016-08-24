@@ -37,7 +37,7 @@ runuser -l $develuser -c "mkdir -p /home/$develuser/.m2"
 wget -q -O - https://cdn.rawgit.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
 
 log Add maven options - some might be deprecated
-log 'export MAVEN_OPTS='"'"'-Xmx1048m -XX:MaxPermSize=512m'"'" >> /home/$develuser/.bashrc
+echo 'export MAVEN_OPTS='"'"'-Xmx1048m -XX:MaxPermSize=512m'"'" >> /home/$develuser/.bashrc
 
 log Download gitconfig for useful git aliases and setup
 wget -q -O - https://cdn.rawgit.com/alexfeigin/devel/master/gitconfig > /etc/gitconfig
@@ -45,7 +45,7 @@ wget -q -O - https://cdn.rawgit.com/alexfeigin/devel/master/gitconfig > /etc/git
 log Setup vnc screen gnome network
 for part in vnc screen gnome network; do
 	wget -q https://rawgit.com/alexfeigin/devel/master/setup-$part.sh
-	chmod +x ./get-$part.sh
+	chmod +x ./setup-$part.sh
 	log Setting up $part
 	./setup-$part.sh >> $part.log 2>>&1 &
 done
@@ -58,7 +58,7 @@ runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -
 log Create sources dir and clone unimgr
 su $develuser -c "mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;" > clone.log 2>&1
 
-log Modify PS1 in .bashrc
+log "Modify PS1 in .bashrc"
 echo "export PS1='"'[\u@\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:$PWD]\$ '"'" >> /home/$develuser/.bashrc
 
 log Finished spinup of centos devel - please reboot and check
