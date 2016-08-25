@@ -44,13 +44,20 @@ echo 'export MAVEN_OPTS='"'"'-Xmx1048m -XX:MaxPermSize=512m'"'" >> /home/$develu
 log Download gitconfig for useful git aliases and setup
 wget -q -O - https://cdn.rawgit.com/alexfeigin/devel/master/gitconfig > /etc/gitconfig
 
-log Setup vnc screen gnome network openvswitch mininet
-for part in vnc screen gnome network openvswitch mininet; do
+log Setup vnc screen gnome network openvswitch 
+for part in vnc screen gnome network openvswitch; do
 	wget -q https://rawgit.com/alexfeigin/devel/master/setup-$part.sh
 	chmod +x ./setup-$part.sh
 	log Setting up $part
-	./setup-$part.sh >> $logdir/$part.log 2>>&1 &
+	./setup-$part.sh >> $logdir/$part.log 2>&1 &
 done
+
+log Setup mininet
+wget -q https://rawgit.com/alexfeigin/devel/master/setup-mininet.sh
+chmod +x ./setup-mininet.sh
+log Setting up mininet
+./setup-mininet.sh >> $logdir/mininet.log 2>&1 &
+
 
 echo 'screen -t "unimgr" sh -c '"'"'cd ~/sources/unimgr; exec /bin/bash'"'" >> /home/$develuser/.screenrc
 
