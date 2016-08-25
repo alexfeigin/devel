@@ -1,18 +1,20 @@
 #!/bin/bash
-exec > >(tee -i init.log)
+mkdir -p /var/log/devel/init
+logdir=/var/log/devel/init
+exec > >(tee -i /var/log/devel/init/init.log)
 
 log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
 log Run yum update
-yum update -y > update.log 2>&1
+yum update -y > $logdir/update.log 2>&1
 log Install wget for easyier scripting
-yum install -y wget >> update.log 2>&1
+yum install -y wget >> $logdir/update.log 2>&1
 
 log Download and unpack maven jdk eclipse chrome - and yum install devel tools and desktop async
 for part in desktop-tools-yum maven jdk eclipse chrome-rpm; do
 	wget -q https://rawgit.com/alexfeigin/devel/master/get-$part.sh
 	chmod +x ./get-$part.sh
 	log Getting $part
-	./get-$part.sh > $part.log 2>&1 &
+	./get-$part.sh > $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
@@ -47,16 +49,16 @@ for part in vnc screen gnome network openvswitch mininet; do
 	wget -q https://rawgit.com/alexfeigin/devel/master/setup-$part.sh
 	chmod +x ./setup-$part.sh
 	log Setting up $part
-	./setup-$part.sh >> $part.log 2>>&1 &
+	./setup-$part.sh >> $logdir/$part.log 2>>&1 &
 done
 
 echo 'screen -t "unimgr" sh -c '"'"'cd ~/sources/unimgr; exec /bin/bash'"'" >> /home/$develuser/.screenrc
 
 log Create an identity file ssh-keygen
-runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''" > id.log 2>&1
+runuser -l $develuser -c "mkdir ~/.ssh; cd ~/.ssh; ssh-keygen -f id_rsa -t rsa -N ''" > $logdir/id.log 2>&1
 
 log Create sources dir and clone unimgr
-su $develuser -c "mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;" > clone.log 2>&1
+su $develuser -c "mkdir /home/$develuser/sources; cd /home/$develuser/sources; git clone https://git.opendaylight.org/gerrit/p/unimgr;" > $logdir/clone.log 2>&1
 
 log "Modify PS1 in .bashrc"
 echo "export PS1='"'[\u@\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:$PWD]\$ '"'" >> /home/$develuser/.bashrc
