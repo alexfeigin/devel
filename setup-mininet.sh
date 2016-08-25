@@ -5,4 +5,6 @@ cd mininet
 latest=$(git tag | grep -Ev '[a-z]' | sort -nr | head -1)
 git checkout $latest
 git checkout -b patched/$latest
-wget rawgit.com/alexfeigin/devel/master/mininet-centos.patch
+wget https://rawgit.com/alexfeigin/devel/master/mininet-centos.patch
+git am -3 < mininet-centos.patch
+./util/install.sh -nf
