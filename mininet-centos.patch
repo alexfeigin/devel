@@ -1,0 +1,45 @@
+From 026b3e7ca957133ed2a03fca20272d969f913b73 Mon Sep 17 00:00:00 2001
+From: Alex Feigin <alex.feigin@hpe.com>
+Date: Wed, 24 Aug 2016 18:33:03 +0300
+Subject: [PATCH] patch for centos7 support
+
+---
+ util/install.sh | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git util/install.sh util/install.sh
+index 9f29807..79500b9 100755
+--- util/install.sh
++++ util/install.sh
+@@ -33,6 +33,17 @@ ARCH=`uname -m`
+ if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
+ if [ "$ARCH" = "i686" ]; then ARCH="i386"; fi
+ 
++test -e /etc/centos-release && DIST="CentOS"
++if [ "$DIST" = "CentOS" ]; then
++    install='sudo yum -y install'
++    remove='sudo yum -y erase'
++    pkginst='sudo rpm -ivh'
++    # Prereqs for this script
++    if ! which lsb_release &> /dev/null; then
++        $install redhat-lsb-core
++    fi
++fi
++
+ test -e /etc/debian_version && DIST="Debian"
+ grep Ubuntu /etc/lsb-release &> /dev/null && DIST="Ubuntu"
+ if [ "$DIST" = "Ubuntu" ] || [ "$DIST" = "Debian" ]; then
+@@ -66,8 +77,8 @@ echo "Detected Linux distribution: $DIST $RELEASE $CODENAME $ARCH"
+ KERNEL_NAME=`uname -r`
+ KERNEL_HEADERS=kernel-headers-${KERNEL_NAME}
+ 
+-if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora'; then
+-    echo "Install.sh currently only supports Ubuntu, Debian and Fedora."
++if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|CentOS'; then
++    echo "Install.sh currently only supports Ubuntu, Debian, Fedora and CentOS."
+     exit 1
+ fi
+ 
+-- 
+1.8.3.1
+
