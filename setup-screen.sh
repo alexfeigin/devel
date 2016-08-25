@@ -1,6 +1,6 @@
 #!/bin/bash
 log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
-local user=$userdevel
+local user=$develuser
 local home=/home/$user
 if [[ "$user" == "root" ]]; then
 	home="/root"
