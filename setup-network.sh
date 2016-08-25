@@ -1,4 +1,4 @@
-#!/bin/bas
+#!/bin/bash
 log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
 log "Disable firewalld and NetworkManager enable legacy network"
 systemctl disable firewalld;
