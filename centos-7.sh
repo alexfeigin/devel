@@ -21,22 +21,22 @@ for job in `jobs -p`; do wait $job; done
 readparam jdk "Install jdk ([open-jdk]/oracle)" open-jdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
-	getpart jdk > $logdir/$part.log 2>&1 
+	getpart jdk > $logdir/jdk.log 2>&1
 else 
 	log "Install open-jdk 1.8"
-	getpart open-jdk  > $logdir/$part.log 2>&1 
+	getpart open-jdk  > $logdir/jdk.log 2>&1 
 fi
 
 readparam sdn "Install sdn test tools (y/[n])" n; . .env.sh
 if [ "$sdn" == "y" ]; then
 	log "Install sdn"
-	getpart sdn > $logdir/$part.log 2>&1 
+	getpart sdn > $logdir/sdn.log 2>&1 
 fi
 
 readparam odl "Install Opendaylight build and test tools [y/n]" y; . .env.sh
 if [ "$odl" == "y" ]; then
         log "Install odl"
-        getpart odl > $logdir/$part.log 2>&1
+        getpart odl > $logdir/odl.log 2>&1
 fi
 
 readparam develuser "Please enter your devel user" devel
