@@ -3,7 +3,7 @@ mkdir -p /var/log/devel/init
 export logdir="/var/log/devel/init"
 exec > >(tee -i /var/log/devel/init/init.log)
 
-curl -sL https://cdn.rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
+curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
 . utils.sh
 
 log "Run yum update"
@@ -33,7 +33,7 @@ if [ "$sdn" == "y" ]; then
 	getpart sdn > $logdir/$part.log 2>&1 
 fi
 
-readparam sdn "Install Opendaylight build and test tools [y/n]" n
+readparam odl "Install Opendaylight build and test tools [y/n]" y; . .env.sh
 if [ "$odl" == "y" ]; then
         log "Install odl"
         getpart odl > $logdir/$part.log 2>&1
