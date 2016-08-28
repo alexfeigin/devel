@@ -8,6 +8,7 @@ yum -y install epel-release network-tools vim
 yum -y \
 install python-{devel,setuptools,virtualenv} \
 @development \
+tigervnc-server \
 yum-utils \
 unzip \
 sshuttle \

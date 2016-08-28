@@ -30,10 +30,8 @@ readparam()
 	local paramdesc=$2
 	local paramdefault=$3
 
-	while [ -z $param ]
-	do
-		read -p "$paramdesc `echo $'\n> '`" pval
-	done
+	read -p "$paramdesc `echo $'\n> '`" pval
+	if [[ "$pval" == "" ]]; then pval="$paramdefault"; fi
 	echo "export $paramname="'"'"$pval"'"' >> .env.sh
 }
 

@@ -11,13 +11,14 @@ yum update -y > $logdir/update.log 2>&1
 log "Install wget for easyier scripting"
 yum install -y wget >> $logdir/update.log 2>&1
 
-log "Install prerequisits async"
+log "Install prerequisites async"
 for part in netwrok desktop-tools-yum maven eclipse chrome-rpm ; do
+	log "Installing $part"
 	getpart $part > $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
-readparam jdk "Install jdk [open-jdk/oracle]" open-jdk
+readparam jdk "Install jdk ([open-jdk]/oracle)" open-jdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
 	getpart jdk > $logdir/$part.log 2>&1 
@@ -26,7 +27,7 @@ else
 	getpart open-jdk  > $logdir/$part.log 2>&1 
 fi
 
-readparam sdn "Install sdn test tools [y/n]" n
+readparam sdn "Install sdn test tools (y/[n])" n; . .env.sh
 if [ "$sdn" == "y" ]; then
 	log "Install sdn"
 	getpart sdn > $logdir/$part.log 2>&1 
@@ -35,7 +36,7 @@ fi
 readparam develuser "Please enter your devel user" devel
 readparam develpwd "Please enter your devel password" devel
 readparam develvncpwd "Please enter your devel vnc password" develpass
-
+. .env.sh
 log Add user $develuser and as sudoer
 useradd -c "User $develuser" $develuser
 echo $develpwd | passwd $develuser --stdin
@@ -50,7 +51,7 @@ su $develuser -l -c logout
 log "Setup user configuration "
 for part in vnc screen gnome bashrc; do
 	log "Setting up $part"
-	setuppart $part.sh >> $logdir/$part.log 2>&1 &
+	setuppart $part >> $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 

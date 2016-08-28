@@ -1,6 +1,6 @@
 #!/bin/bash
 . utils.sh
-log Create vnc server services for root :1 and for devel user :2
+log Create vnc server services for root :1 and for $develuser user :2
 cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
 cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:2.service
 sed -i "s:<USER>:root:g" /etc/systemd/system/vncserver@:1.service
