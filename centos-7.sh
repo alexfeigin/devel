@@ -12,12 +12,17 @@ log "Install wget for easyier scripting"
 yum install -y wget >> $logdir/update.log 2>&1
 
 log "Install prerequisites async"
-for part in network desktop-tools-yum maven eclipse chrome-rpm ; do
+for part in network desktop-tools-yum maven eclipse chrome-rpm; do
 	log "Installing $part"
 	getpart $part > $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
+if [[ -e .env.sh ]]; then 
+	read -p "Use existing .env.sh? ([y]/n) `echo $'\n> '`" env
+	if [[ "$env" == "n" ]]; then rm -f .env.sh; fi
+fi
+ 
 readparam jdk "Install jdk ([openjdk]/oracle)" openjdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
