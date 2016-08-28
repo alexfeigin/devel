@@ -32,7 +32,7 @@ readparam()
 
 	while [ -z $param ]
 	do
-		read -p "Please enter your $paramdesc `echo $'\n> '`" pval
+		read -p "$paramdesc `echo $'\n> '`" pval
 	done
 	echo "export $paramname="'"'"$pval"'"' >> .env.sh
 }

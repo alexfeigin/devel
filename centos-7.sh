@@ -17,7 +17,8 @@ for part in netwrok desktop-tools-yum maven eclipse chrome-rpm ; do
 done
 for job in `jobs -p`; do wait $job; done
 
-if [ "$jdk" == "" ]; then 
+readparam jdk "Install jdk [open-jdk/oracle]" open-jdk
+if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
 	getpart jdk > $logdir/$part.log 2>&1 
 else 
@@ -25,14 +26,15 @@ else
 	getpart open-jdk  > $logdir/$part.log 2>&1 
 fi
 
-if [ ! "$sdn" == "" ]; then
+readparam sdn "Install sdn test tools [y/n]" n
+if [ "$sdn" == "y" ]; then
 	log "Install sdn"
 	getpart sdn > $logdir/$part.log 2>&1 
 fi
 
-readparam develuser "devel user" devel
-readparam develpwd "devel password" devel
-readparam develvncpwd "devel vnc password" develpass
+readparam develuser "Please enter your devel user" devel
+readparam develpwd "Please enter your devel password" devel
+readparam develvncpwd "Please enter your devel vnc password" develpass
 
 log Add user $develuser and as sudoer
 useradd -c "User $develuser" $develuser
@@ -60,7 +62,6 @@ log "Download gitconfig for useful git aliases and setup"
 wget -q -O - https://cdn.rawgit.com/alexfeigin/devel/master/gitconfig > /etc/gitconfig
 
 log "Finished spinup of centos devel - please reboot and check"
-# TODO: Setup devel username and password from input
 # TODO: Setup git user.name and user.email from input
 
 
