@@ -33,6 +33,12 @@ if [ "$sdn" == "y" ]; then
 	getpart sdn > $logdir/$part.log 2>&1 
 fi
 
+readparam sdn "Install Opendaylight build and test tools [y/n]" n
+if [ "$odl" == "y" ]; then
+        log "Install odl"
+        getpart odl > $logdir/$part.log 2>&1
+fi
+
 readparam develuser "Please enter your devel user" devel
 readparam develpwd "Please enter your devel password" devel
 readparam develvncpwd "Please enter your devel vnc password" develpass
