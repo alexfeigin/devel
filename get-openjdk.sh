@@ -1,6 +1,5 @@
 #!/bin/bash
 . utils.sh
-log install openjdk-8-jdk
-sudo apt-get install openjdk-8-jdk
-
+log install java-1.8.0-openjdk-devel
+yum install -y java-1.8.0-openjdk-devel
 log Finished installing JDK

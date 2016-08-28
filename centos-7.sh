@@ -18,13 +18,13 @@ for part in netwrok desktop-tools-yum maven eclipse chrome-rpm ; do
 done
 for job in `jobs -p`; do wait $job; done
 
-readparam jdk "Install jdk ([open-jdk]/oracle)" open-jdk; . .env.sh
+readparam jdk "Install jdk ([openjdk]/oracle)" openjdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
 	getpart jdk > $logdir/jdk.log 2>&1
 else 
 	log "Install open-jdk 1.8"
-	getpart open-jdk  > $logdir/jdk.log 2>&1 
+	getpart openjdk  > $logdir/jdk.log 2>&1 
 fi
 
 readparam sdn "Install sdn test tools (y/[n])" n; . .env.sh
