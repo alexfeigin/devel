@@ -1,5 +1,5 @@
 #!/bin/bash
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 log "Disable firewalld and NetworkManager enable legacy network"
 systemctl disable firewalld;
 systemctl stop firewalld;

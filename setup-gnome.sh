@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 log "Setup terminal shortcut (create script, run as autostart app in gnome)"
 mkdir /usr/share/devel
 cat << EOF > /usr/share/devel/term-scut.sh

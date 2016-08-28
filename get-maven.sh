@@ -1,6 +1,6 @@
 #!/bin/bash
 # Download and install maven 3.3.9
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 pushd /opt
 log Downloading maven 3.3.9 from apache.spd.co.il
 wget http://apache.spd.co.il/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz

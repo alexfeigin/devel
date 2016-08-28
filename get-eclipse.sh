@@ -1,6 +1,6 @@
 #!/bin/bash
 # setup eclipse
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 
 pushd /opt
 log Downloading neon eclipse from mirror.switch.ch
@@ -19,4 +19,5 @@ export ECLIPSE_HOME=/usr/local/eclipse
 export PATH=\${ECLIPSE_HOME}:\${PATH}
 EOF
 chmod +x /etc/profile.d/eclipse.sh
+sed -i "s/-Xmx1024m/-Xmx2048m/g" /opt/eclipse-neon/eclipse.ini
 log Finished eclipse install 

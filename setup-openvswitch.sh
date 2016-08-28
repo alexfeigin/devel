@@ -1,5 +1,5 @@
 #!/bin/bash
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 log installing rdo-release yum repo
 yum install -y https://www.rdoproject.org/repos/rdo-release.rpm
 log installing openvswitch 

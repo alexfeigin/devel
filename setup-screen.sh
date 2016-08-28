@@ -1,5 +1,5 @@
 #!/bin/bash
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 user=$develuser
 home=/home/$user
 if [[ "$user" == "root" ]]; then

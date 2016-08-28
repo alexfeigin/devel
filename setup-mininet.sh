@@ -1,5 +1,5 @@
 #!/bin/bash
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
+. utils.sh
 log clone into mininet
 mkdir /root/sources
 cd /root/sources
