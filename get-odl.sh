@@ -1,6 +1,6 @@
 #!/bin/bash
-
-# Make sure pip itself us up-to-da
+. utils.sh
+log "Make sure pip itself us up-to-date"
 log "Installing robot framework and dependencies"
 pip install --upgrade pip
 
