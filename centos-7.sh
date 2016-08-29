@@ -11,8 +11,11 @@ yum update -y > $logdir/update.log 2>&1
 log "Install wget for easyier scripting"
 yum install -y wget >> $logdir/update.log 2>&1
 
+log "Disable Network Manager and firewall"
+getpart network > $logdir/network.log 2>&1
+
 log "Install prerequisites async"
-for part in network desktop-tools-yum maven eclipse chrome-rpm; do
+for part in desktop-tools-yum maven eclipse chrome-rpm; do
 	log "Installing $part"
 	getpart $part > $logdir/$part.log 2>&1 &
 done
