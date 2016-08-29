@@ -14,6 +14,7 @@ popd
 log Creating /etc/profile.d/maven.sh
 cat << EOF > /etc/profile.d/maven.sh
 export M2_HOME=/usr/local/maven
+export M3=
 export PATH=\${M2_HOME}/bin:\${PATH}
 EOF
 chmod +x /etc/profile.d/maven.sh

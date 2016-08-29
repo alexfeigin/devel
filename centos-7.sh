@@ -28,7 +28,7 @@ if [ "$jdk" == "oracle" ]; then
 	log "Install Oracle jdk 1.8"
 	getpart jdk > $logdir/jdk.log 2>&1
 else 
-	log "Install open-jdk 1.8"
+	log "Install openjdk 1.8"
 	getpart openjdk  > $logdir/jdk.log 2>&1 
 fi
 
@@ -38,7 +38,7 @@ if [ "$sdn" == "y" ]; then
 	getpart sdn > $logdir/sdn.log 2>&1 
 fi
 
-readparam odl "Install Opendaylight build and test tools [y/n]" y; . .env.sh
+readparam odl "Install Opendaylight build and test tools ([y]/n)" y; . .env.sh
 if [ "$odl" == "y" ]; then
         log "Install odl"
         getpart odl > $logdir/odl.log 2>&1
