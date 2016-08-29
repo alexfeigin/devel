@@ -32,7 +32,7 @@ else
 	getpart openjdk  > $logdir/jdk.log 2>&1 
 fi
 
-readparam sdn "Install sdn test tools (y/[n])" n; . .env.sh
+readparam sdn "Install sdn test tools - openvswitch, mininet (y/[n])" n; . .env.sh
 if [ "$sdn" == "y" ]; then
 	log "Install sdn"
 	getpart sdn > $logdir/sdn.log 2>&1 
@@ -47,33 +47,20 @@ fi
 readparam develuser "Please enter your devel user" devel
 readparam develpwd "Please enter your devel password" devel
 readparam develvncpwd "Please enter your devel vnc password" develpass
+readparam gituser "Please enter your git user.name" devel
+readparam gitemail "Please enter your git user.email" devel@devel
 . .env.sh
-log Add user $develuser and as sudoer
-useradd -c "User $develuser" $develuser
-echo $develpwd | passwd $develuser --stdin
-usermod -aG wheel $develuser
-sed -i "s:^# %wheel:UNCOMMENT%wheel:g" /etc/sudoers
-sed -i "s:^%wheel:# %wheel:g" /etc/sudoers
-sed -i "s:^UNCOMMENT%wheel:%wheel:g" /etc/sudoers
 
-log "first login user $develuser"
-su $develuser -l -c logout
+log "Setting up user"
+setuppart user >> $logdir/user.log 2>&1 &
 
 log "Setup user configuration "
-for part in vnc screen gnome bashrc; do
+for part in maven git vnc screen gnome bashrc; do
 	log "Setting up $part"
 	setuppart $part >> $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
-log "Maven settings.xml for opendaylight devs"
-runuser -l $develuser -c "mkdir -p /home/$develuser/.m2"
-wget -q -O - https://cdn.rawgit.com/opendaylight/odlparent/master/settings.xml > /home/$develuser/.m2/settings.xml
-
-log "Download gitconfig for useful git aliases and setup"
-wget -q -O - https://cdn.rawgit.com/alexfeigin/devel/master/gitconfig > /etc/gitconfig
-
 log "Finished spinup of centos devel - please reboot and check"
-# TODO: Setup git user.name and user.email from input
 
 
