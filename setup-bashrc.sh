@@ -10,7 +10,4 @@ log "Set karaf debug"
 echo 'export KARAF_DEBUG=true' >> /home/$develuser/.bashrc
 echo 'export JAVA_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"' >> /home/$develuser/.bashrc
 
-log "Set MAVEN_OPTS"
-echo 'export MAVEN_OPTS='"'"'-Xmx2024m -XX:MaxPermSize=512m'"'" >> /home/$develuser/.bashrc
-
 log "Finished .bashrc update"
