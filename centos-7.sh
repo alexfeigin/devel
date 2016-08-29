@@ -11,15 +11,15 @@ yum update -y > $logdir/update.log 2>&1
 log "Install wget for easyier scripting"
 yum install -y wget >> $logdir/update.log 2>&1
 
-log "Disable Network Manager and firewall"
-getpart network > $logdir/network.log 2>&1
-
 log "Install prerequisites async"
 for part in desktop-tools-yum maven eclipse chrome-rpm; do
 	log "Installing $part"
 	getpart $part > $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
+
+log "Disable Network Manager and firewall"
+getpart network > $logdir/network.log 2>&1
 
 if [[ -e .env.sh ]]; then 
 	read -p "Use existing .env.sh? ([y]/n) `echo $'\n> '`" env
@@ -55,7 +55,7 @@ readparam gitemail "Please enter your git user.email" devel@devel
 . .env.sh
 
 log "Setting up user"
-setuppart user >> $logdir/user.log 2>&1 &
+setuppart user >> $logdir/user.log 2>&1 
 
 log "Setup user configuration "
 for part in maven git vnc screen gnome bashrc; do
