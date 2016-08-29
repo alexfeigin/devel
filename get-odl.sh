@@ -1,23 +1,28 @@
 #!/bin/bash
 . utils.sh
-log "Make sure pip itself us up-to-date"
-log "Installing robot framework and dependencies"
-pip install --upgrade pip
 
-pip install --upgrade docker-py importlib requests scapy netifaces netaddr ipaddr
-pip install --upgrade robotframework{,-{httplibrary,requests,sshlibrary,selenium2library}}
+if [[ -e /opt/jjb ]]; then 
+	log "ODL build and test utils are already installed"
+else
+	log "Make sure pip itself us up-to-date"
+	log "Installing robot framework and dependencies"
+	pip install --upgrade pip
 
-# Module jsonpath is needed by current AAA idmlite suite.
-pip install --upgrade jsonpath-rw
+	pip install --upgrade docker-py importlib requests scapy netifaces netaddr ipaddr
+	pip install --upgrade robotframework{,-{httplibrary,requests,sshlibrary,selenium2library}}
 
-# Modules for longevity framework robot library
-pip install elasticsearch==1.7.0 elasticsearch-dsl==0.0.11
+	# Module jsonpath is needed by current AAA idmlite suite.
+	pip install --upgrade jsonpath-rw
 
-# Module for pyangbind used by lispflowmapping project
-pip install pyangbind==0.5.6
+	# Modules for longevity framework robot library
+	pip install elasticsearch==1.7.0 elasticsearch-dsl==0.0.11
 
-log "Installing jenkins jobs builder"
-git clone https://git.opendaylight.org/gerrit/p/releng/builder.git /opt/jjb
-pip install -r /opt/jjb/jjb/requirements.txt
+	# Module for pyangbind used by lispflowmapping project
+	pip install pyangbind==0.5.6
 
-log "Finished Install Opendaylight build and test frameoworks"
+	log "Installing jenkins jobs builder"
+	git clone https://git.opendaylight.org/gerrit/p/releng/builder.git /opt/jjb
+	pip install -r /opt/jjb/jjb/requirements.txt
+
+	log "Finished Install Opendaylight build and test frameoworks"
+fi
