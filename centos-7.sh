@@ -21,10 +21,10 @@ for job in `jobs -p`; do wait $job; done
 log "Disable Network Manager and firewall"
 getpart network > $logdir/network.log 2>&1
 
-if [[ -e .env.sh ]]; then 
-	read -p "Use existing .env.sh? ([y]/n) `echo $'\n> '`" env
-	if [[ "$env" == "n" ]]; then rm -f .env.sh; fi
-fi
+#if [[ -e .env.sh ]]; then 
+#	read -p "Use existing .env.sh? ([y]/n) `echo $'\n> '`" env
+#	if [[ "$env" == "n" ]]; then rm -f .env.sh; fi
+#fi
  
 readparam jdk "Install jdk ([openjdk]/oracle)" openjdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
