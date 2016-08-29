@@ -34,4 +34,5 @@ EOF
 
 su $user -c "cat /tmp/gcbsh > $home/git-current-branch.sh"
 chmod +x $home/git-current-branch.sh
+su $user -c "mkdir /home/$user/sources"
 log Finished
