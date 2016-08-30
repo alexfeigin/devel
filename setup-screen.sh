@@ -14,7 +14,7 @@ log Generate $home/.screenrc
 cat <<-EOF > /tmp/screenrc
 hardstatus alwayslastline
 hardstatus alwayslastline "%-w%{.bw}%n %t%{-}%+w %-60= %1\`"
-#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{+b W}%1`%{-b g}][%{B} %d/%m%{W} %c %{g}]'
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{+b W}%1\`%{-b g}][%{B} %d/%m%{W} %c %{g}]'
 defnonblock on
 altscreen on
 bind X only
