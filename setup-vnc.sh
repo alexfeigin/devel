@@ -2,7 +2,6 @@
 . utils.sh
 log "Setup a vnc cleanup service to delete /tmp/.X* on boot before vncservice are started"
 
-mkdir -p /usr/share/devel/.vnc
 
 cat << EOF > /lib/systemd/system/cleanup.target
 #  This file is devel spinup.
@@ -31,7 +30,6 @@ After=syslog.target network.target
 Type=forking
 # Clean any existing files in /tmp/.X11-unix environment
 ExecStart=/usr/sbin/runuser -l root -c "/usr/bin/rm -rf /tmp/.X*"
-PIDFile=/usr/share/devel/.vnc/%H%i.pid
 ExecStop=/bin/sh -c '/usr/bin/echo no stop'
 
 [Install]
