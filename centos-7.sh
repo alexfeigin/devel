@@ -64,6 +64,9 @@ for part in maven git vnc screen gnome bashrc; do
 done
 for job in `jobs -p`; do wait $job; done
 
+log "Setting hostname to devel"
+hostnamectl set-hostname devel
+
 log "Finished spinup of centos devel - please reboot and check"
 
 
