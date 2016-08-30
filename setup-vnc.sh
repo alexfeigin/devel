@@ -2,12 +2,7 @@
 . utils.sh
 log "Setup a vnc cleanup service to delete /tmp/.X* on boot before vncservice are started"
 
-mkdir -p /usr/share/devel
-cat << EOF > /usr/share/devel/clean_vnc.sh
-#!/bin/bash
-rm -rf /tmp/.X*
-EOF
-chmod +x /usr/share/devel/clean_vnc.sh
+mkdir -p /usr/share/devel/.vnc
 
 cat << EOF > /lib/systemd/system/cleanup.target
 #  This file is devel spinup.
@@ -15,14 +10,18 @@ cat << EOF > /lib/systemd/system/cleanup.target
 # this file is created as part of the centos-7 devel spinup from
 # the devel project in github http://github.com/alexfeigin/devel/
 
+
 [Unit]
 Description=devel cleanup target
-Documentation=for things that need to run after system cleanup on reboot
+Documentation=http://github.com/alexfeigin/devel/
 After=network.target
 RefuseManualStart=yes
 EOF
 mkdir -p /etc/systemd/system/cleanup.target.wants
 cat << EOF > /etc/systemd/system/devel-cleanup-vnc.service
+#  This is the service that cleans up /tmp/.X*
+
+
 [Unit]
 Description=devel VNC cleanup
 After=syslog.target network.target
@@ -31,10 +30,9 @@ After=syslog.target network.target
 [Service]
 Type=forking
 # Clean any existing files in /tmp/.X11-unix environment
-ExecStartPre=/bin/sh -c '/usr/bin/vncserver -kill %i > /dev/null 2>&1 || :'
-ExecStart=/usr/sbin/runuser -l root -c "/usr/bin/vncserver %i -geometry 1920x1080"
-PIDFile=/root/.vnc/%H%i.pid
-ExecStop=/bin/sh -c '/usr/bin/vncserver -kill %i > /dev/null 2>&1 || :'
+ExecStart=/usr/sbin/runuser -l root -c "/usr/bin/rm -rf /tmp/.X*"
+PIDFile=/usr/share/devel/.vnc/%H%i.pid
+ExecStop=/bin/sh -c '/usr/bin/echo no stop'
 
 [Install]
 WantedBy=cleanup.target
