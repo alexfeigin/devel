@@ -22,6 +22,17 @@ else
 	export PATH=\${ECLIPSE_HOME}:\${PATH}
 	EOF
 	chmod +x /etc/profile.d/eclipse.sh
+	log "Extending eclipse memory"
 	sed -i "s/-Xmx1024m/-Xmx2048m/g" /opt/eclipse-neon/eclipse.ini
+	log "Adding eclipse to menu"
+	cat <<-EOF > /usr/share/applications/eclipse.desktop
+	Name=Eclipse
+	Comment= "Eclipse Neon"
+	Icon=/opt/eclipse-neon/icon.xpm
+	Exec=/opt/eclipse-neon/eclipse
+	Terminal=false
+	Categories=GNOME;Development;IDE;Java;
+	EOF
+	chmod +x /usr/share/applications/eclipse.desktop
 	log Finished
 fi 
