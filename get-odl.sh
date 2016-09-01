@@ -4,6 +4,8 @@
 if [[ -e /opt/jjb ]]; then 
 	log "ODL build and test utils are already installed"
 else
+	log start clone async
+	git clone https://git.opendaylight.org/gerrit/p/releng/builder.git /opt/jjb &
 	log "Make sure pip itself us up-to-date"
 	log "Installing robot framework and dependencies"
 	pip install --upgrade pip
@@ -21,7 +23,7 @@ else
 	pip install pyangbind==0.5.6
 
 	log "Installing jenkins jobs builder"
-	git clone https://git.opendaylight.org/gerrit/p/releng/builder.git /opt/jjb
+	for i in `jobs -p`; do wait $i; done # clone end before try to pip install /opt/jjb/jjb/requirements.txt
 	pip install -r /opt/jjb/jjb/requirements.txt
 
 	log "Finished Install Opendaylight build and test frameoworks"
