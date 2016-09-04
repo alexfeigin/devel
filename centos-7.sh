@@ -7,19 +7,19 @@ curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
 . utils.sh
 
 log "Run yum update"
-yum update -y > $logdir/update.log 2>&1
+yum update -y >> $logdir/update.log 2>&1
 log "Install wget for easyier scripting"
 yum install -y wget >> $logdir/update.log 2>&1
 
 log "Install prerequisites async"
 for part in desktop-tools-yum maven eclipse chrome-rpm; do
 	log "Installing $part"
-	getpart $part > $logdir/$part.log 2>&1 &
+	getpart $part >> $logdir/$part.log 2>&1 &
 done
 for job in `jobs -p`; do wait $job; done
 
 log "Disable Network Manager and firewall"
-getpart network > $logdir/network.log 2>&1
+getpart network >> $logdir/network.log 2>&1
 
 #if [[ -e .env.sh ]]; then 
 #	read -p "Use existing .env.sh? ([y]/n) `echo $'\n> '`" env
@@ -29,22 +29,22 @@ getpart network > $logdir/network.log 2>&1
 readparam jdk "Install jdk ([openjdk]/oracle)" openjdk; . .env.sh
 if [ "$jdk" == "oracle" ]; then 
 	log "Install Oracle jdk 1.8"
-	getpart jdk > $logdir/jdk.log 2>&1
+	getpart jdk >> $logdir/jdk.log 2>&1
 else 
 	log "Install openjdk 1.8"
-	getpart openjdk  > $logdir/jdk.log 2>&1 
+	getpart openjdk >> $logdir/jdk.log 2>&1 
 fi
 
 readparam sdn "Install sdn test tools - openvswitch, mininet (y/[n])" n; . .env.sh
 if [ "$sdn" == "y" ]; then
 	log "Install sdn"
-	getpart sdn > $logdir/sdn.log 2>&1 
+	getpart sdn >> $logdir/sdn.log 2>&1 
 fi
 
 readparam odl "Install Opendaylight build and test tools ([y]/n)" y; . .env.sh
 if [ "$odl" == "y" ]; then
         log "Install odl"
-        getpart odl > $logdir/odl.log 2>&1
+        getpart odl >> $logdir/odl.log 2>&1
 fi
 
 readparam develuser "Please enter your devel user" devel
