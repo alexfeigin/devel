@@ -1,16 +1,16 @@
-From 026b3e7ca957133ed2a03fca20272d969f913b73 Mon Sep 17 00:00:00 2001
-From: Alex Feigin <alex.feigin@hpe.com>
-Date: Wed, 24 Aug 2016 18:33:03 +0300
-Subject: [PATCH] patch for centos7 support
+From 765eea0cdb14691583674fab7c04bddc7fd971ad Mon Sep 17 00:00:00 2001
+From: root <root@devel.lab.contextream.local>
+Date: Sun, 4 Sep 2016 18:00:12 +0300
+Subject: [PATCH] add install option for Centos
 
 ---
  util/install.sh | 15 +++++++++++++--
  1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git util/install.sh util/install.sh
-index 9f29807..79500b9 100755
---- util/install.sh
-+++ util/install.sh
+diff --git a/util/install.sh b/util/install.sh
+index 60eb7c1..a68119f 100755
+--- a/util/install.sh
++++ b/util/install.sh
 @@ -33,6 +33,17 @@ ARCH=`uname -m`
  if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
  if [ "$ARCH" = "i686" ]; then ARCH="i386"; fi
@@ -29,14 +29,14 @@ index 9f29807..79500b9 100755
  test -e /etc/debian_version && DIST="Debian"
  grep Ubuntu /etc/lsb-release &> /dev/null && DIST="Ubuntu"
  if [ "$DIST" = "Ubuntu" ] || [ "$DIST" = "Debian" ]; then
-@@ -66,8 +77,8 @@ echo "Detected Linux distribution: $DIST $RELEASE $CODENAME $ARCH"
+@@ -68,8 +79,8 @@ echo "Detected Linux distribution: $DIST $RELEASE $CODENAME $ARCH"
  KERNEL_NAME=`uname -r`
  KERNEL_HEADERS=kernel-headers-${KERNEL_NAME}
  
 -if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|RedHatEnterpriseServer'; then
 -    echo "Install.sh currently only supports Ubuntu, Debian, RedHat and Fedora."
 +if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|RedHatEnterpriseServer|CentOS'; then
-+    echo "Install.sh currently only supports Ubuntu, Debian, RedHat, Fedora and CentOS."
++    echo "Install.sh currently only supports Ubuntu, Debian, RedHat, CentOS and Fedora."
      exit 1
  fi
  
