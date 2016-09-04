@@ -1,6 +1,8 @@
 #!/bin/bash
 . utils.sh
 if [[ -e /root/sources/mininet ]]; then
+	log mininet already installed
+else
 	log clone into mininet
 	mkdir -p /root/sources
 	cd /root/sources
@@ -16,6 +18,4 @@ if [[ -e /root/sources/mininet ]]; then
 	log start ./util/install.sh -nf
 	./util/install.sh -nf
 	log Finished install mininet - try mn --test pingall
-else
-	log mininet already installed
 fi
