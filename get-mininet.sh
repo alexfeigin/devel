@@ -3,6 +3,8 @@
 if [[ -e /root/sources/mininet ]]; then
 	log mininet already installed
 else
+	log make sure we have git
+	yum install -y git
 	log clone into mininet
 	mkdir -p /root/sources
 	cd /root/sources
