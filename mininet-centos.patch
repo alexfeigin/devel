@@ -33,10 +33,10 @@ index 9f29807..79500b9 100755
  KERNEL_NAME=`uname -r`
  KERNEL_HEADERS=kernel-headers-${KERNEL_NAME}
  
--if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora'; then
--    echo "Install.sh currently only supports Ubuntu, Debian and Fedora."
-+if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|CentOS'; then
-+    echo "Install.sh currently only supports Ubuntu, Debian, Fedora and CentOS."
+-if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|RedHatEnterpriseServer'; then
+-    echo "Install.sh currently only supports Ubuntu, Debian, RedHat and Fedora."
++if ! echo $DIST | egrep 'Ubuntu|Debian|Fedora|RedHatEnterpriseServer|CentOS'; then
++    echo "Install.sh currently only supports Ubuntu, Debian, RedHat, Fedora and CentOS."
      exit 1
  fi
  
