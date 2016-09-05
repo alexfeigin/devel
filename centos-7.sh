@@ -13,9 +13,10 @@ yum install -y wget >> $logdir/update.log 2>&1
 
 log "Install prerequisites async"
 for part in desktop-tools-yum maven eclipse chrome-rpm; do
-	log "Installing $part"
+	log "Installing $part async"
 	getpart $part >> $logdir/$part.log 2>&1 &
 done
+log "Waiting for all async installations to complete"
 for job in `jobs -p`; do wait $job; done
 
 log "Disable Network Manager and firewall"
@@ -47,6 +48,9 @@ if [ "$odl" == "y" ]; then
         getpart odl >> $logdir/odl.log 2>&1
 fi
 
+log "Setting hostname to devel"
+hostnamectl set-hostname devel
+
 readparam develuser "Please enter your devel user" devel
 readparam develpwd "Please enter your devel password" devel
 readparam develvncpwd "Please enter your devel vnc password" develpass
@@ -57,16 +61,12 @@ readparam gitemail "Please enter your git user.email" devel@devel
 log "Setting up user"
 setuppart user >> $logdir/user.log 2>&1 
 
-log "Setup user configuration "
+log "Setup user configuration async"
 for part in maven git vnc screen gnome bashrc; do
-	log "Setting up $part"
+	log "Setting up $part async"
 	setuppart $part >> $logdir/$part.log 2>&1 &
 done
+log "Waiting for all async setups to complete"
 for job in `jobs -p`; do wait $job; done
 
-log "Setting hostname to devel"
-hostnamectl set-hostname devel
-
 log "Finished spinup of centos devel - please reboot and check"
-
-
