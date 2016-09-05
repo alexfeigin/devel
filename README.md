@@ -21,4 +21,5 @@ export develpwd="devel"
 export develvncpwd="develpass"
 export gituser="Devel Name"
 export gitemail="devel.name@company.com"
+EOF
 ```
