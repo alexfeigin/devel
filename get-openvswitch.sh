@@ -11,11 +11,18 @@ else
 	yum install -y ./openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
 	log Finished installing 
 	cat <<-EOF > /etc/profile.d/openvswitch.sh
+	#!/bin/bash
+	_f()
+	{
+	        COMPREPLY=(\$(sudo ovs-vsctl list-br 2>/dev/null))
+	        return 0
+	}
+	complete -F _f "getdpid"
 	getdpid()
 	{
 		local br=\$1
 		if [[ "\$br" == "" ]]; then echo "usage getdpid <bridge-name>"; return; fi
-		local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
 		python -c "print(int(\$hexdpid,16))";
 	}
