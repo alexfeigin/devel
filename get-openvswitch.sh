@@ -27,5 +27,5 @@ else
 		python -c "print(int(\$hexdpid,16))";
 	}
 	EOF
-	chmod +x /etc/profile.c/openvwitch.sh
+	chmod +x /etc/profile.d/openvwitch.sh
 fi
