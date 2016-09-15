@@ -9,7 +9,7 @@ else
 	yum install -y openvswitch
 	wget https://rawgit.com/alexfeigin/devel/master/openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
 	yum install -y ./openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
-	log Finished installing 
+	systemctl enable openvswitch
 	cat <<-EOF > /etc/profile.d/openvswitch.sh
 	#!/bin/bash
 	_f()
@@ -28,4 +28,5 @@ else
 	}
 	EOF
 	chmod +x /etc/profile.d/openvswitch.sh
+	log Finished installing
 fi
