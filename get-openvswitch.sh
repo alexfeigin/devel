@@ -1,6 +1,6 @@
 #!/bin/bash
 . utils.sh
-if [[ -e /etc/profile.c/openvswitch.sh ]]; then
+if [[ -e /etc/profile.d/openvswitch.sh ]]; then
 	log openvswitch already installed
 else
 	log installing rdo-release yum repo
@@ -10,6 +10,7 @@ else
 	wget https://rawgit.com/alexfeigin/devel/master/openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
 	yum install -y ./openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
 	systemctl enable openvswitch
+	systemctl start openvswitch
 	cat <<-EOF > /etc/profile.d/openvswitch.sh
 	#!/bin/bash
 	_f()
