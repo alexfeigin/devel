@@ -7,26 +7,36 @@ systemctl disable NetworkManager;
 systemctl stop NetworkManager;
 
 
-ifc=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir)")
-if [[ ! -e /etc/sysconfig/network-scripts/ifcfg-$ifc ]] ; then
-	cat <<-EOF > /etc/sysconfig/network-scripts/ifcfg-$ifc
-	TYPE="Ethernet"
-	BOOTPROTO="dhcp"
-	DEFROUTE="yes"
-	PEERDNS="yes"
-	PEERROUTES="yes"
-	IPV4_FAILURE_FATAL="no"
-	IPV6INIT="yes"
-	IPV6_AUTOCONF="yes"
-	IPV6_DEFROUTE="yes"
-	IPV6_PEERDNS="yes"
-	IPV6_PEERROUTES="yes"
-	IPV6_FAILURE_FATAL="no"
-	NAME="$ifc"
-	DEVICE="$ifc"
-	ONBOOT="yes"
-	EOF
-fi
+ifcs=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir)")
+for ifc in $ifcs; do
+	if [[ ! -e /etc/sysconfig/network-scripts/ifcfg-$ifc ]] ; then
+		cat <<-EOF > /etc/sysconfig/network-scripts/ifcfg-$ifc
+		TYPE="Ethernet"
+		BOOTPROTO="dhcp"
+		DEFROUTE="yes"
+		PEERDNS="yes"
+		PEERROUTES="yes"
+		IPV4_FAILURE_FATAL="no"
+		IPV6INIT="yes"
+		IPV6_AUTOCONF="yes"
+		IPV6_DEFROUTE="yes"
+		IPV6_PEERDNS="yes"
+		IPV6_PEERROUTES="yes"
+		IPV6_FAILURE_FATAL="no"
+		NAME="$ifc"
+		DEVICE="$ifc"
+		ONBOOT="yes"
+		EOF
+	fi
+done
+for ifc in $(find /etc/sysconfig/network-scripts/ -name 'ifcfg-*' | sed 's:.*\-::g' ); do
+	if ip link show dev $ifc >/dev/null 2>&1; then
+		log $ifc ready to go
+	else
+		rm -rf /etc/sysconfig/network-scripts/ifcfg-$ifc
+		log cleaned up /etc/sysconfig/network-scripts/ifcfg-$ifc
+	fi
+done
 
 systemctl start network;
 systemctl enable network;
