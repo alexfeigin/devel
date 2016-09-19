@@ -28,6 +28,7 @@ python-docker-py \
 python-pip \
 wireshark-gnome.x86_64 \
 screen \
+virt-manager \
 tmux \
 mock \
 sshpass \
