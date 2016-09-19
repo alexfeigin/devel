@@ -1,7 +1,9 @@
+
 #!/bin/bash
 if [[ -e .env.sh ]]; then
 	. .env.sh
 fi
+
 
 log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
 
@@ -13,7 +15,15 @@ getpart()
 	log "Getting $part"
 	./get-$part.sh
 }
-
+_getpart_complete()
+{
+	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	opts="maven odl mininet chrome-rpm jdk openvswitch desktop-tools-yum openjdk eclipse network"
+	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+	return 0
+}
+complete -F _getpart_complete "getpart"
 
 setuppart()
 {
@@ -23,6 +33,15 @@ setuppart()
 	log "Setup $part"
 	./setup-$part.sh
 }
+_setuppart_complete()
+{
+	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	opts="git gnome vnc maven screen sdn user bashrc"
+	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+}
+complete -F _setuppart_complete "setuppart"
 
 readparam()
 {
