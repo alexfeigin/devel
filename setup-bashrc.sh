@@ -6,7 +6,7 @@ log "Set .bashrc"
 home=/home/$develuser
 if [[ "$develuser" == "root" ]]; then home="/root"; fi
 log "Modify PS1"
-echo "export PS1='"'[\u@\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:\w]\$ '"'" >> $home/.bashrc
+echo "export PS1='"'[\A][\u@\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\h\[`tput sgr0`\]:\w]\$ '"'" >> $home/.bashrc
 
 log "Set karaf debug"
 echo 'export KARAF_DEBUG=true' >> $home/.bashrc
