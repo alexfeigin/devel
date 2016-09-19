@@ -10,8 +10,8 @@ sed -i "s:/home/root:/root:g" /etc/systemd/system/vncserver@:1.service
 sed -i "s:<USER>:$develuser:g" /etc/systemd/system/vncserver@:2.service
 sed -i 's:vncserver %i":vncserver %i -geometry 1920x1080":g' /etc/systemd/system/vncserver@:1.service
 sed -i 's:vncserver %i":vncserver %i -geometry 1920x1080":g' /etc/systemd/system/vncserver@:2.service
-sed -i 's@ExecStartPre.*@ExecStartPre=/bin/sh -c \'/usr/bin/rm -rf /tmp/.X11-unix/X1 > /dev/null 2>&1 && /usr/bin/vncserver -kill %i > /dev/null 2>&1 || :\'@g' /etc/systemd/system/vncserver@:1.service
-sed -i 's@ExecStartPre.*@ExecStartPre=/bin/sh -c \'/usr/bin/rm -rf /tmp/.X11-unix/X2 > /dev/null 2>&1 && /usr/bin/vncserver -kill %i > /dev/null 2>&1 || :\'@g' /etc/systemd/system/vncserver@:2.service
+sed -i 's@ExecStartPre.*@ExecStartPre=/bin/sh -c '"'"'/usr/bin/rm -rf /tmp/.X11-unix/X1 > /dev/null 2>\&1 \&\& /usr/bin/vncserver -kill %i > /dev/null 2>\&1 || :'"'"'@g' /etc/systemd/system/vncserver@:1.service
+sed -i 's@ExecStartPre.*@ExecStartPre=/bin/sh -c '"'"'/usr/bin/rm -rf /tmp/.X11-unix/X2 > /dev/null 2>\&1 \&\& /usr/bin/vncserver -kill %i > /dev/null 2>\&1 || :'"'"'@g' /etc/systemd/system/vncserver@:2.service
 systemctl daemon-reload
 systemctl enable vncserver@:1.service
 systemctl enable vncserver@:2.service
