@@ -15,7 +15,7 @@ else
 	#!/bin/bash
 	_f()
 	{
-		if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+		if [[ \${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
 		opts=\$(sudo ovs-vsctl list-br 2>/dev/null)
 		cur="\${COMP_WORDS[COMP_CWORD]}"
 		COMPREPLY=( \$(compgen -W "\${opts}" -- \${cur}) )
