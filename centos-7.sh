@@ -51,11 +51,11 @@ fi
 log "Setting hostname to devel"
 hostnamectl set-hostname devel
 
-readparam develuser "Please enter your devel user" devel
-readparam develpwd "Please enter your devel password" devel
-readparam develvncpwd "Please enter your devel vnc password" develpass
-readparam gituser "Please enter your git user.name" devel
-readparam gitemail "Please enter your git user.email" devel@devel
+readparam develuser "Please enter your devel user [devel]" devel
+readparam develpwd "Please enter your devel password [devel]" devel
+readparam develvncpwd "Please enter your devel vnc password [develpass]" develpass
+readparam gituser "Please enter your git user.name [Devel Name]" "Devel Name"
+readparam gitemail "Please enter your git user.email [devel.name@company.com]" devel.name@company.com
 . .env.sh
 
 log "Setting up user"
