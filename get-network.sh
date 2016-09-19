@@ -7,7 +7,7 @@ systemctl disable NetworkManager;
 systemctl stop NetworkManager;
 
 
-ifcs=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir)")
+ifcs=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir|tap)")
 for ifc in $ifcs; do
 	if [[ ! -e /etc/sysconfig/network-scripts/ifcfg-$ifc ]] ; then
 		cat <<-EOF > /etc/sysconfig/network-scripts/ifcfg-$ifc
