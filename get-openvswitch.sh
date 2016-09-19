@@ -15,7 +15,10 @@ else
 	#!/bin/bash
 	_f()
 	{
-	        COMPREPLY=(\$(sudo ovs-vsctl list-br 2>/dev/null))
+		if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+		opts=\$(sudo ovs-vsctl list-br 2>/dev/null)
+		cur="\${COMP_WORDS[COMP_CWORD]}"
+		COMPREPLY=( \$(compgen -W "\${opts}" -- \${cur}) )
 	        return 0
 	}
 	complete -F _f "getdpid"
