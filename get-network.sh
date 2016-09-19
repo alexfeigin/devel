@@ -1,5 +1,7 @@
 #!/bin/bash
 . utils.sh
+log "Install net-tools to get netstat"
+yum install -y net-tools
 log "Disable firewalld and NetworkManager enable legacy network"
 systemctl disable firewalld;
 systemctl stop firewalld;
@@ -9,7 +11,9 @@ systemctl stop NetworkManager;
 
 ifcs=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir|tap)")
 for ifc in $ifcs; do
+	log "Discovered interface $ifc"
 	if [[ ! -e /etc/sysconfig/network-scripts/ifcfg-$ifc ]] ; then
+		log "Writing file /etc/sysconfig/network-scripts/ifcfg-$ifc"
 		cat <<-EOF > /etc/sysconfig/network-scripts/ifcfg-$ifc
 		TYPE="Ethernet"
 		BOOTPROTO="dhcp"
