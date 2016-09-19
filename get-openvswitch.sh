@@ -28,7 +28,7 @@ else
 		if [[ "\$br" == "" ]]; then echo "usage getdpid <bridge-name>"; return; fi
 		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
-		python -c "print(int(\$hexdpid,16))";
+		python -c "print(int(\$hexdpid,16))"
 	}
 	EOF
 	chmod +x /etc/profile.d/openvswitch.sh
