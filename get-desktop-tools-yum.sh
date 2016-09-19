@@ -4,7 +4,7 @@ log installing groups '"Development Tools" "GNOME Desktop" "Graphical Administra
 yum groupinstall -y "Development Tools" "GNOME Desktop" "Graphical Administration Tools"
 
 log installing yum packages 
-yum -y install epel-release network-tools vim
+yum -y install epel-release net-tools vim
 yum -y \
 install python-{devel,setuptools,virtualenv} \
 @development \
