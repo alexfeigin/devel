@@ -23,3 +23,10 @@ export gituser="Devel Name"
 export gitemail="devel.name@company.com"
 EOF
 ```
+
+# use utils
+```bash
+curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
+. utils.sh
+```
+
