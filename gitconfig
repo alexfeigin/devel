@@ -1,5 +1,6 @@
 [core]
 	pager = less -RS
+    editor = vim
 
 [pager]
 	show-branch = true
