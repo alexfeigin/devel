@@ -36,12 +36,6 @@ else
 	getpart openjdk >> $logdir/jdk.log 2>&1 
 fi
 
-readparam sdn "Install sdn test tools - openvswitch, mininet (y/[n])" n; . .env.sh
-if [ "$sdn" == "y" ]; then
-	log "Install sdn"
-	getpart sdn >> $logdir/sdn.log 2>&1 
-fi
-
 readparam odl "Install Opendaylight build and test tools ([y]/n)" y; . .env.sh
 if [ "$odl" == "y" ]; then
         log "Install odl"
@@ -68,5 +62,11 @@ for part in maven git vnc screen gnome bashrc; do
 done
 log "Waiting for all async setups to complete"
 for job in `jobs -p`; do wait $job; done
+
+readparam sdn "Install sdn test tools - openvswitch, mininet (y/[n])" n; . .env.sh
+if [ "$sdn" == "y" ]; then
+	log "Install sdn"
+	setuppart sdn >> $logdir/sdn.log 2>&1 
+fi
 
 log "Finished spinup of centos devel - please reboot and check"
