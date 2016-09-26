@@ -9,7 +9,7 @@ else
 
 	lvjava=$(find /usr/lib/jvm/ -name 'java-1.8.0-openjdk-1.8.*.x86_64' | head -1)
 	log creating link: ln -s $lvjava /usr/local/java
-	ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64 /usr/local/java
+	ln -s $lvjava /usr/local/java
 
 	log createing /etc/profile.d/java.sh
 	cat <<-EOF > /etc/profile.d/java.sh
