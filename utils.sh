@@ -39,7 +39,7 @@ _setuppart_complete()
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	opts="git gnome vnc maven screen sdn user bashrc"
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-        return 0
+	return 0
 }
 complete -F _setuppart_complete "setuppart"
 
@@ -58,6 +58,15 @@ readparam()
 	echo "export $paramname="'"'"$pval"'"' >> .env.sh
 }
 
-
+getproxy()
+{
+	local proxy="$1"'proxy'
+	local default=$2
+	if [[ -e .proxies.sh ]]; then 
+		exists=$(cat .proxies.sh | grep "export $proxy")
+		if [[ "$exists" != "" ]]; then return 0; fi
+	fi
+	echo "export $proxy="'"'"$default"'"' >> .proxies.sh
+}
 
 
