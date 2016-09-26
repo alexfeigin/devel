@@ -2,12 +2,17 @@
 # setup eclipse
 . utils.sh
 
+
 if [[ -e /opt/eclipse-neon ]]; then 
 	log "Eclipse already installed"
 else
 	pushd /opt
-	log Downloading neon eclipse from mirror.switch.ch
-	wget http://mirror.switch.ch/eclipse/technology/epp/downloads/release/neon/R/eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
+	if [[ -e .proxies.sh ]]; then 
+		. .proxies.sh
+	fi
+	if [[ "X$eclipseproxy" == "X" ]]; then eclipseproxy="http://mirror.switch.ch/eclipse/technology/epp/downloads/release/neon/R/eclipse-java-neon-R-linux-gtk-x86_64.tar.gz"; fi
+	log Downloading neon eclipse from mirror $eclipseproxy
+	wget $eclipseproxy -O eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
 	log Untaring eclipse
 	tar xzf eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
 	mv eclipse eclipse-neon 
