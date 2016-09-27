@@ -22,6 +22,10 @@ Type=Application
 X-GNOME-Autostart-enabled=true
 EOF
 
+log "install chrome-gnome-shell addon to let users install from gnome extension website"
+wget -q https://rawgit.com/alexfeigin/devel/master/chrome-gnome-shell-1.0-1.x86_64.rpm
+yum install -y chrome-gnome-shell-1.0-1.x86_64.rpm
+
 log 'Fix "Authentication is required to set the network proxy used for downloading packages" message'
 echo "X-GNOME-Autostart-enabled=false" >> /etc/xdg/autostart/gnome-software-service.desktop
 

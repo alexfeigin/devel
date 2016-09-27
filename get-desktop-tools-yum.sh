@@ -4,6 +4,7 @@ log installing groups '"Development Tools" "GNOME Desktop" "Graphical Administra
 yum groupinstall -y "Development Tools" "GNOME Desktop" "Graphical Administration Tools"
 
 log installing yum packages 
+yum -y install epel-release
 yum -y install epel-release net-tools vim
 yum -y \
 install python-{devel,setuptools,virtualenv} \
@@ -23,6 +24,7 @@ libpcap-devel \
 boost-devel \
 firefox \
 xorg-x11-server-Xvfb \
+alacarte \
 python-netaddr \
 python-docker-py \
 python-pip \
