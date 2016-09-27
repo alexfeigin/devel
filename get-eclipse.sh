@@ -29,12 +29,15 @@ else
 	sed -i "s/-Xmx1024m/-Xmx2048m/g" /opt/eclipse-neon/eclipse.ini
 	log "Adding eclipse to menu"
 	cat <<-EOF > /usr/share/applications/eclipse.desktop
+	[Desktop Entry]
+	Version=1.0
 	Name=Eclipse
-	Comment= "Eclipse Neon"
+	Comment="Eclipse Neon"
 	Icon=/opt/eclipse-neon/icon.xpm
 	Exec=/opt/eclipse-neon/eclipse
 	Terminal=false
-	Categories=GNOME;Development;IDE;Java;
+	Type=Application
+	Categories=GNOME;Development;IDE;Java;Programming;
 	EOF
 	chmod +x /usr/share/applications/eclipse.desktop
 	log Finished
