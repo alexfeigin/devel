@@ -31,8 +31,8 @@ else
 	cat <<-EOF > /usr/share/applications/eclipse.desktop
 	[Desktop Entry]
 	Version=1.0
-	Comment="Eclipse Neon"
-	Name="Eclipse Neon"
+	Comment=Eclipse Neon
+	Name=Eclipse Neon
 	Icon=/opt/eclipse-neon/icon.xpm
 	Exec=/opt/eclipse-neon/eclipse
 	Terminal=false
