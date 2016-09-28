@@ -78,5 +78,5 @@
 	steal = "!f() { name=${2:+$1}; name=${name:-$(git rr)}; br=${2:-$1}; git fetch \"$name\" --prune && git checkout --no-track -b \"$br\" \"$name/$br\" && git push \"$name\" \":$br\"; }; f"
 	cleanf = clean -xdf
 	cleanff = clean -Xdf
-	whoami = "!f() { git config --list | grep ^user.name | sed 's/user.name=//g'; }; f"
+	whoami = "!f() { git config --list | grep ^user; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"
