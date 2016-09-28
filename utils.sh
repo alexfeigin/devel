@@ -11,9 +11,13 @@ getpart()
 {
 	local part=$1
 	wget -q https://rawgit.com/alexfeigin/devel/master/get-$part.sh -O get-$part.sh
-	chmod +x ./get-$part.sh
-	log "Getting $part"
-	./get-$part.sh
+	if [[ -e ./get-$part.sh ]] && [[ -s ./get-$part.sh ]]; then
+		chmod +x ./get-$part.sh
+		log "Getting $part"
+		./get-$part.sh
+	else
+		log "while trying to get - [$part] not found - check if you have right part and if connection to internet is working"
+	fi
 }
 _getpart_complete()
 {
@@ -29,9 +33,13 @@ setuppart()
 {
 	local part=$1
 	wget -q https://rawgit.com/alexfeigin/devel/master/setup-$part.sh -O setup-$part.sh
-	chmod +x ./setup-$part.sh
-	log "Setup $part"
-	./setup-$part.sh
+	if [[ -e ./setup-$part.sh ]] && [[ -s ./setup-$part.sh ]]; then
+		chmod +x ./setup-$part.sh
+		log "Setup $part"
+		./setup-$part.sh
+	else
+		log "while trying to setup - [$part] not found - check if you have right part and if connection to internet is working"
+	fi
 }
 _setuppart_complete()
 {
