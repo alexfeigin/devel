@@ -19,7 +19,7 @@ _getpart_complete()
 {
 	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
 	cur="${COMP_WORDS[COMP_CWORD]}"
-	opts="maven odl mininet chrome-rpm jdk openvswitch desktop-tools-yum openjdk eclipse network taskbar-gnome"
+	opts="maven odl mininet chrome-rpm jdk openvswitch desktop-tools-yum openjdk eclipse network"
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 	return 0
 }
