@@ -7,7 +7,7 @@ if [[ -e /opt/eclipse-neon ]]; then
 	log "Eclipse already installed"
 else
 	getproxy eclipse "http://mirror.switch.ch/eclipse/technology/epp/downloads/release/neon/R/eclipse-java-neon-R-linux-gtk-x86_64.tar.gz"
-	. proxies.sh
+	. .proxies.sh
 	pushd /opt
 	log Downloading neon eclipse from mirror $eclipseproxy
 	wget $eclipseproxy -O eclipse-java-neon-R-linux-gtk-x86_64.tar.gz
