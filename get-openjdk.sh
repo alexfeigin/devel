@@ -7,7 +7,7 @@ else
 	log install java-1.8.0-openjdk-devel
 	yum install -y java-1.8.0-openjdk-devel
 
-	lvjava=$(find /usr/lib/jvm/ -name 'java-1.8.0-openjdk-1.8.*.x86_64' | head -1)
+	lvjava=$(find /usr/lib/jvm/ -name 'java-1.8.0-openjdk-1.8.*.x86_64' | sort | tail -1)
 	log creating link: ln -s $lvjava /usr/local/java
 	ln -s $lvjava /usr/local/java
 
