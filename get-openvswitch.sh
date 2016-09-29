@@ -7,7 +7,7 @@ else
 	yum install -y centos-release-openstack-mitaka
 	log installing openvswitch 
 	yum install -y openvswitch
-	wget https://rawgit.com/alexfeigin/devel/master/openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
+	wget https://rawgit.com/alexfeigin/devel/master/openvswitch-selinux-policy-2.5.1-1.el7.centos.noarch.rpm
 	yum install -y ./openvswitch-selinux-policy-2.5.0-1.el7.centos.noarch.rpm
 	systemctl enable openvswitch
 	systemctl start openvswitch
