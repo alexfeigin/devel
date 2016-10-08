@@ -3,7 +3,8 @@ if [[ -e .env.sh ]]; then
 	. .env.sh
 fi
 if [[ ! -e .utils.sh ]]; then
-	yum install -y wget > /dev/null
+	mkdir -p /var/log/devel/
+	yum install -y wget >> /var/log/devel/utils.log 2>&1
 	echo 1 > .utils.sh
 fi
 
