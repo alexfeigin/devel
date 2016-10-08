@@ -1,9 +1,11 @@
-
 #!/bin/bash
 if [[ -e .env.sh ]]; then
 	. .env.sh
 fi
-
+if [[ ! -e .utils.sh ]]; then
+	yum install -y wget > /dev/null
+	echo 1 > .utils.sh
+fi
 
 log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
 

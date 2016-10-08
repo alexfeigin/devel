@@ -28,6 +28,6 @@ else
 	git am -3 < mininet-centos.patch
 	log "start ./util/install.sh -nf"
 	./util/install.sh -nf
-	wget https://rawgit.com/alexfeigin/devel/master/topo-custom.py -O sources/mininet/custom/topo-custom.py
+	wget https://rawgit.com/alexfeigin/devel/master/topo-custom.py -O custom/topo-custom.py
 	log "Finished install mininet - try mn --test pingall"
 fi
