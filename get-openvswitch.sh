@@ -4,7 +4,7 @@ if [[ -e /etc/profile.d/openvswitch.sh ]]; then
 	log openvswitch already installed
 else
 	log installing rdo-release yum repo
-	yum install -y centos-release-openstack-mitaka
+	yum install -y centos-release-openstack-newton
 	log installing openvswitch 
 	yum install -y openvswitch
 	wget https://rawgit.com/alexfeigin/devel/master/openvswitch-selinux-policy-2.5.1-1.el7.centos.noarch.rpm
