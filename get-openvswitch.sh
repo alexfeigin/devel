@@ -19,9 +19,10 @@ else
 		opts=\$(sudo ovs-vsctl list-br 2>/dev/null)
 		cur="\${COMP_WORDS[COMP_CWORD]}"
 		COMPREPLY=( \$(compgen -W "\${opts}" -- \${cur}) )
-	        return 0
+		return 0
 	}
 	complete -F _f "getdpid"
+	complete -F _f "dumpflows"
 	getdpid()
 	{
 		local br=\$1
@@ -29,6 +30,14 @@ else
 		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
 		python -c "print(int(\$hexdpid,16))"
+	}
+	dumpflows()
+	{
+		local br=\$1
+		if [[ "\$br" == "" ]]; then echo "usage dumpflows <bridge-name>"; return; fi
+		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+		ovs-ofctl dump-flows \$br -OOpenflow13
 	}
 	EOF
 	chmod +x /etc/profile.d/openvswitch.sh
