@@ -5,9 +5,11 @@
 if [[ -e /opt/apache-maven-3.3.9 ]]; then 
 	log "Maven already installed"
 else
+	getproxy mvn "http://apache.spd.co.il/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz"
+	. proxies.sh
 	pushd /opt
-	log Downloading maven 3.3.9 from apache.spd.co.il
-	wget http://apache.spd.co.il/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+	log Downloading maven 3.3.9 from $mvnproxy
+	wget $mvnproxy
 	log Untaring maven
 	tar xzf apache-maven-3.3.9-bin.tar.gz
 	log cleaning tar file
