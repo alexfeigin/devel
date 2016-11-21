@@ -20,6 +20,7 @@ libpng-devel \
 freetype-devel \
 python-matplotlib \
 crudini \
+meld \
 libpcap-devel \
 boost-devel \
 firefox \
