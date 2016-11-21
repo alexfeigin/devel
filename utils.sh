@@ -48,7 +48,7 @@ _setuppart_complete()
 {
 	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
 	cur="${COMP_WORDS[COMP_CWORD]}"
-	opts="git gnome vnc maven screen sdn user bashrc"
+	opts="git gnome vnc maven screen sdn user bashrc samba"
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 	return 0
 }
