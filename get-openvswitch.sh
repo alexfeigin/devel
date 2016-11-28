@@ -23,6 +23,7 @@ else
 	}
 	complete -F _f "getdpid"
 	complete -F _f "dumpflows"
+	complete -F _f "dumpgroups"
 	getdpid()
 	{
 		local br=\$1
@@ -38,6 +39,14 @@ else
 		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
 		ovs-ofctl dump-flows \$br -OOpenflow13
+	}
+	dumpgroups()
+	{
+		local br=\$1
+		if [[ "\$br" == "" ]]; then echo "usage dumpgroups <bridge-name>"; return; fi
+		local hexdpid=\$(sudo ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+		ovs-ofctl dump-groups \$br -OOpenflow13
 	}
 	EOF
 	chmod +x /etc/profile.d/openvswitch.sh
