@@ -15,6 +15,7 @@ else
 	systemctl start openvswitch
 fi
 if [[ ! -e /etc/profile.d/openvswitch.sh ]] || [[ "X$options" == "Xutils" ]]; then
+	log writing /etc/profile.d/openvswitch.sh
 	cat <<-EOF > /etc/profile.d/openvswitch.sh
 	#!/bin/bash
 	_f()
