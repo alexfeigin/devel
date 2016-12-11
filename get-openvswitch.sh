@@ -1,5 +1,7 @@
 #!/bin/bash
 . utils.sh
+options=$1
+
 if [[ -e /etc/profile.d/openvswitch.sh ]]; then
 	log openvswitch already installed
 else
@@ -11,6 +13,8 @@ else
 	yum install -y openvswitch-selinux-policy-2.5.1-1.el7.centos.noarch.rpm
 	systemctl enable openvswitch
 	systemctl start openvswitch
+fi
+if [[ ! -e /etc/profile.d/openvswitch.sh ]] || [[ "X$options" == "Xutils" ]]; then
 	cat <<-EOF > /etc/profile.d/openvswitch.sh
 	#!/bin/bash
 	_f()
@@ -35,10 +39,11 @@ else
 	dumpflows()
 	{
 		local br=\$1
+		local cmd="\${@:2}"
 		if [[ "\$br" == "" ]]; then echo "usage dumpflows <bridge-name>"; return; fi
 		local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
-		ovs-ofctl dump-flows \$br -OOpenflow13
+		ovs-ofctl dump-flows \$br -OOpenflow13 \$cmd
 	}
 	dumpgroups()
 	{
@@ -48,6 +53,9 @@ else
 		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
 		ovs-ofctl dump-groups \$br -OOpenflow13
 	}
+	export -f getdpid
+	export -f dumpflows
+	export -f dumpgroups
 	EOF
 	chmod +x /etc/profile.d/openvswitch.sh
 	log Finished installing
