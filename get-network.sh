@@ -9,28 +9,37 @@ systemctl disable NetworkManager;
 systemctl stop NetworkManager;
 
 
-ifcs=$(netstat -i | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir|tap)")
-for ifc in $ifcs; do
+cat <<EOF > /tmp/ifcfgmain
+TYPE="Ethernet"
+BOOTPROTO="dhcp"
+DEFROUTE="yes"
+PEERDNS="yes"
+PEERROUTES="yes"
+NAME="INTERFACENAME"
+DEVICE="INTERFACENAME"
+ONBOOT="yes"
+EOF
+
+cat <<EOF > /tmp/ifcfgother
+TYPE="Ethernet"
+BOOTPROTO="none"
+DEFROUTE="no"
+NAME="INTERFACENAME"
+DEVICE="INTERFACENAME"
+ONBOOT="yes"
+EOF
+
+ifcs=($(netstat -ia | cut -d' ' -f1 | tail -n +3 | grep -Ev "(lo|vir|tap)"))
+for i in ${!ifcs[@]}; do
+	ifc=${ifcs[i]}
 	log "Discovered interface $ifc"
 	if [[ ! -e /etc/sysconfig/network-scripts/ifcfg-$ifc ]] ; then
 		log "Writing file /etc/sysconfig/network-scripts/ifcfg-$ifc"
-		cat <<-EOF > /etc/sysconfig/network-scripts/ifcfg-$ifc
-		TYPE="Ethernet"
-		BOOTPROTO="dhcp"
-		DEFROUTE="yes"
-		PEERDNS="yes"
-		PEERROUTES="yes"
-		IPV4_FAILURE_FATAL="no"
-		IPV6INIT="yes"
-		IPV6_AUTOCONF="yes"
-		IPV6_DEFROUTE="yes"
-		IPV6_PEERDNS="yes"
-		IPV6_PEERROUTES="yes"
-		IPV6_FAILURE_FATAL="no"
-		NAME="$ifc"
-		DEVICE="$ifc"
-		ONBOOT="yes"
-		EOF
+		if [[ $i -lt 2 ]]; then
+			cat /tmp/ifcfgmain | sed "s:INTERFACENAME:${ifcs[i]}:g" > /etc/sysconfig/network-scripts/ifcfg-$ifc
+		else
+			cat /tmp/ifcfgother | sed "s:INTERFACENAME:${ifcs[i]}:g" > /etc/sysconfig/network-scripts/ifcfg-$ifc
+		fi
 	fi
 done
 for ifc in $(find /etc/sysconfig/network-scripts/ -name 'ifcfg-*' | sed 's:.*\-::g' ); do
