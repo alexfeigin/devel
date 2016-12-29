@@ -1,7 +1,7 @@
 #!/bin/bash
-mkdir -p /var/log/devel/init
 export logdir="/var/log/devel/init"
-exec > >(tee -i /var/log/devel/init/init.log)
+mkdir -p $logdir
+exec > >(tee -ia $logdir/init.log)
 
 curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
 . utils.sh
