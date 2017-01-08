@@ -1,15 +1,14 @@
 #!/bin/bash
+log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
 if [[ -e .env.sh ]]; then
 	. .env.sh
 fi
 if [[ ! -e .utils.sh ]]; then
-	mkdir -p /var/log/devel/
+	mkdir -p /var/log/devel
+	log "making sure wget (prereq) is installed"
 	yum install -y wget >> /var/log/devel/utils.log 2>&1
 	echo 1 > .utils.sh
 fi
-
-log() { echo "[$(date "+%Y-%m-%d %H:%M:%S")]: $@"; }
-
 getpart()
 {
 	local part=$1
@@ -24,9 +23,9 @@ getpart()
 }
 _getpart_complete()
 {
-	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+	if [[ ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
 	cur="${COMP_WORDS[COMP_CWORD]}"
-	opts="maven odl mininet chrome-rpm jdk openvswitch desktop-tools-yum openjdk eclipse network"
+	opts="maven mininet chrome-rpm openvswitch desktop-tools-yum openjdk oraclejdk eclipse network"
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 	return 0
 }
@@ -46,7 +45,7 @@ setuppart()
 }
 _setuppart_complete()
 {
-	if [[  ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+	if [[ ${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	opts="git gnome vnc maven screen sdn user bashrc samba"
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -67,6 +66,7 @@ readparam()
 	read -p "$paramdesc `echo $'\n> '`" pval
 	if [[ "$pval" == "" ]]; then pval="$paramdefault"; fi
 	echo "export $paramname="'"'"$pval"'"' >> .env.sh
+	. .env.sh
 }
 
 getproxy()
@@ -78,6 +78,5 @@ getproxy()
 		if [[ "$exists" != "" ]]; then return 0; fi
 	fi
 	echo "export $proxy="'"'"$default"'"' >> .proxies.sh
+	. .proxies.sh
 }
-
-

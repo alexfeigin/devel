@@ -10,9 +10,7 @@ chmod +x init.sh
 # silent install (customizations)
 ```bash
 cat << EOF > .env.sh
-export jdk="openjdk" # (openjdk/oracle)
-export sdn="n" # (y/n) install opevswitch and mininet 
-export odl="n" # (y/n) install robot and jjb
+export jdk="open" # (open/oracle)
 export develuser="devel" # add devel user
 export develpwd="devel" # devel user password
 export develvncpwd="develpass" # vnc password for screen :1 and :2 (minimum 6 letters)
