@@ -2,6 +2,7 @@
 curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
 . utils.sh
 logdir=/var/log/devel/init
+mkdir -p $logdir
 exec > >(tee -ia $logdir/init.log)
 log "Run yum update"
 yum update -y >> $logdir/update.log 2>&1
