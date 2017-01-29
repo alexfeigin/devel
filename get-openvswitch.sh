@@ -20,41 +20,52 @@ if [[ ! -e /etc/profile.d/openvswitch.sh ]] || [[ "X$options" == "Xutils" ]]; th
 	#!/bin/bash
 	_f()
 	{
-		if [[ \${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
-		opts=\$(ovs-vsctl list-br 2>/dev/null)
-		cur="\${COMP_WORDS[COMP_CWORD]}"
-		COMPREPLY=( \$(compgen -W "\${opts}" -- \${cur}) )
-		return 0
+	    if [[ \${COMP_CWORD} -gt 1 ]]; then COMPREPLY=(); return 0; exit; fi
+	    opts=\$(ovs-vsctl list-br 2>/dev/null)
+	    cur="\${COMP_WORDS[COMP_CWORD]}"
+	    COMPREPLY=( \$(compgen -W "\${opts}" -- \${cur}) )
+	    return 0
 	}
 	complete -F _f "getdpid"
+	complete -F _f "dumpint"
 	complete -F _f "dumpflows"
 	complete -F _f "dumpgroups"
 	getdpid()
 	{
-		local br=\$1
-		if [[ "\$br" == "" ]]; then echo "usage getdpid <bridge-name>"; return; fi
-		local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
-		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
-		python -c "print(int(\$hexdpid,16))"
+	    local br=\$1
+	    if [[ "\$br" == "" ]]; then echo "usage getdpid <bridge-name>"; return; fi
+	    local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+	    if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+	    python -c "print(int(\$hexdpid,16))"
+	}
+	dumpint()
+	{
+	    local br=\$1
+	    if [[ "\$br" == "" ]]; then echo "usage getdpid <bridge-name>"; return; fi
+	    local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+	    if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+	    ovsdb-client dump Interface name ofport options | head -3
+	    (for port in \$(ovs-vsctl list-ports \$br); do ovsdb-client dump Interface name ofport options | grep \$port; done) | sort -k2,2
 	}
 	dumpflows()
 	{
-		local br=\$1
-		local cmd="\${@:2}"
-		if [[ "\$br" == "" ]]; then echo "usage dumpflows <bridge-name>"; return; fi
-		local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
-		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
-		ovs-ofctl dump-flows \$br -OOpenflow13 \$cmd
+	    local br=\$1
+	    local cmd="\${@:2}"
+	    if [[ "\$br" == "" ]]; then echo "usage dumpflows <bridge-name>"; return; fi
+	    local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+	    if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+	    ovs-ofctl dump-flows \$br -OOpenflow13 \$cmd
 	}
 	dumpgroups()
 	{
-		local br=\$1
-		if [[ "\$br" == "" ]]; then echo "usage dumpgroups <bridge-name>"; return; fi
-		local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
-		if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
-		ovs-ofctl dump-groups \$br -OOpenflow13
+	    local br=\$1
+	    if [[ "\$br" == "" ]]; then echo "usage dumpgroups <bridge-name>"; return; fi
+	    local hexdpid=\$(ovs-vsctl -- get bridge \$br datapath-id 2>/dev/null)
+	    if [[ "\$hexdpid" == "" ]]; then echo no bridge named \$br; return; fi
+	    ovs-ofctl dump-groups \$br -OOpenflow13
 	}
 	export -f getdpid
+	export -f dumpint
 	export -f dumpflows
 	export -f dumpgroups
 	EOF
