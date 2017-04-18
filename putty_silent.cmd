@@ -33,11 +33,12 @@ if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 ::::::::::::::::::::::::::::
 REM Run shell as admin (example) - put here code as you like
 echo $client = new-object System.Net.WebClient > download.ps1
-echo $client.DownloadFile("https://the.earth.li/~sgtatham/putty/0.67/x86/putty-0.67-installer.exe","C:\Users\contextream\Desktop\client\putty-0.67-installer.exe") >> download.ps1
+echo $client.DownloadFile("https://the.earth.li/~sgtatham/putty/0.67/x86/putty-0.67-installer.exe","%userprofile%\Desktop\client\putty-0.67-installer.exe") >> download.ps1
+mkdir %userprofile%\Desktop\client
 powershell -ExecutionPolicy Unrestricted -File download.ps1
 del download.ps1
-C:\Users\contextream\Desktop\client\putty-0.67-installer.exe /VERYSILENT
-del C:\Users\contextream\Desktop\client\putty-0.67-installer.exe 
+%userprofile%\Desktop\client\putty-0.67-installer.exe /VERYSILENT
+del %userprofile%\Desktop\client\putty-0.67-installer.exe 
 setx path "%path%;c:\Program Files (x86)\PuTTY"
 pause
 
