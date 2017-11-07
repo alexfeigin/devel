@@ -29,4 +29,10 @@ yum install -y chrome-gnome-shell-1.0-1.x86_64.rpm
 log 'Fix "Authentication is required to set the network proxy used for downloading packages" message'
 echo "X-GNOME-Autostart-enabled=false" >> /etc/xdg/autostart/gnome-software-service.desktop
 
+cat << EOF > /etc/X11/xinit/xinitrc.d/profile.sh
+#!/bin/env bash
+
+source /etc/profile
+EOF
+
 log Finished gnome setup
