@@ -13,6 +13,9 @@ getpart network >> $logdir/network.log 2>&1
 log "Installing desktop-tools this may download and install 2G of software (give it time)"
 getpart desktop-tools-yum
 
+log "Installing python3"
+getpart python3
+
 log "Install maven eclipse chrome-rpm async"
 for part in maven eclipse chrome-rpm; do
 	log "Installing $part"
