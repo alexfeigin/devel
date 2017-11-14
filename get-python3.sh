@@ -6,6 +6,4 @@ yum-builddep python
 yum install -y python34*
 
 pip3 install --upgrade pip
-pip3 install bs4
-pip3 install lxml
-
+pip3 install jupyter ipython bs4 lxml
