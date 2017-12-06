@@ -54,7 +54,7 @@
 	fixup = !git rebase -i --autosquash $(git br)
 	logg = log --graph
 	logf = log --pretty=medium
-	logn = log --pretty=bold  --date=relative --name-status
+	logn = log --pretty=bold --date=relative --name-status
 	logp = log --pretty=patch --date=relative -p --reverse
 	logpf = log --pretty=patch --date=relative -p --follow
 	logd = log --oneline --decorate --graph
@@ -69,10 +69,10 @@
 	br = "!f() { git config --get-regexp 'branch..*.remote' | perl -lne '/branch.(.*).remote/; $a=$1,$bb=$b if (($b = `git rev-list --first-parent --count $1...'\"$1\"'`) < $bb || !$a); END {print $a}'; }; f"
 	bresolve = "!f() { a=$(git config --get branch.$1.remote) b=$(git config --get branch.$1.merge); [ \"$a\" == . ] && echo ${b#refs/remotes/} || echo $a/${b#refs/heads/}; }; f"
 	brr = "!f() { git bresolve $(git br \"$1\"); }; f"
-	wu =  "!f() { a=$1; shift; git logn \"$a..$(git brr \"$a\")\" \"$@\"; }; f"
+	wu = "!f() { a=$1; shift; git logn \"$a..$(git brr \"$a\")\" \"$@\"; }; f"
 	wup = "!f() { a=$1; shift; git logp -M \"$a..$(git brr \"$a\")\" \"$@\"; }; f"
 	nwu = "!f() { git config --get-regexp 'branch..*.remote' | perl -lne '/branch.(.*).remote/ && print $1' | while read br; do git rev-list --count $br..$(git bresolve $br) | grep -q ^0 || echo \"git wu $br\"; done }; f"
-	lp =  "!f() { a=$1; shift; git logp \"$(git br  \"$a\")..$a\" \"$@\"; }; f"
+	lp = "!f() { a=$1; shift; git logp \"$(git br \"$a\")..$a\" \"$@\"; }; f"
 	cur = "!(if ! git diff HEAD --quiet; then echo -e \"HEAD - \\033[1;31mLocal changes\\033[m\"; echo; git --no-pager diff --name-status HEAD; fi; git --no-pager logn $(git br)..)|less -+C -FXRSM"
 	sync = "!git verifyref && git push -q $(git --version | grep -q ' 1.7' || echo --prune) sdg \"+refs/heads/*:refs/remotes/$(git selfname)/*\" && { git fetch --prune sdg || { git remote prune sdg && git fetch --prune sdg; } }"
 	steal = "!f() { name=${2:+$1}; name=${name:-$(git rr)}; br=${2:-$1}; git fetch \"$name\" --prune && git checkout --no-track -b \"$br\" \"$name/$br\" && git push \"$name\" \":$br\"; }; f"
@@ -80,3 +80,5 @@
 	cleanff = clean -Xdf
 	whoami = "!f() { git config --list | grep ^user; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"
+	rh = "!f() { cb=$(git branch | grep \\* | cut -d \" \" -f2); co=$(git config --list | grep $cb.remote | cut -d\"=\" -f2); git fetch $co && git reset --hard $co/$cb; }; f"
+
