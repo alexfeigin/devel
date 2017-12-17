@@ -80,5 +80,6 @@
 	cleanff = clean -Xdf
 	whoami = "!f() { git config --list | grep ^user; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"
-	rh = "!f() { cb=$(git branch | grep \\* | cut -d \" \" -f2); co=$(git config --list | grep $cb.remote | cut -d\"=\" -f2); git fetch $co && git reset --hard $co/$cb; }; f"
+	rh = "!f() { cb=$(git br); co=$(git config --get branch.$cb.remote); echo -e This will run: \"\\t\\tgit fetch $co \"'&&'\" git reset --hard $co/$cb\"; echo -n "Press Enter to continue [Ctrl-C to cancel] "; read -r git fetch $co && git reset --hard $co/$cb; }; f"
+
 
