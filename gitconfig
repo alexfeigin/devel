@@ -64,6 +64,7 @@
 	bell = "!f() { pts=$(ps x -u${UID} | grep sshd | grep -m 1 -o 'pts/[0-9]\\+$'); for I in `seq 1 ${1:-5}`; do echo -ne '\\007' > /dev/${pts:-stdout}; sleep 0.15; done; }; f"
 	sbh = "!f() { a=${1/#-/master}; shift; [ \"$a\" == master ] || a=${a:+$a/}; a=${a:-$(git br)}; git show-branch \"$@\" heads/${a%master}\\*; }; f"
 	br = "!f() { git config --get-regexp 'branch..*.remote' | perl -lne '/branch.(.*).remote/; $a=$1,$bb=$b if (($b = `git rev-list --first-parent --count $1...'\"$1\"'`) < $bb || !$a); END {print $a}'; }; f"
+	lbr = rev-parse --abbrev-ref HEAD
 	bresolve = "!f() { a=$(git config --get branch.$1.remote) b=$(git config --get branch.$1.merge); [ \"$a\" == . ] && echo ${b#refs/remotes/} || echo $a/${b#refs/heads/}; }; f"
 	brr = "!f() { git bresolve $(git br \"$1\"); }; f"
 	wu = "!f() { a=$1; shift; git logn \"$a..$(git brr \"$a\")\" \"$@\"; }; f"
@@ -73,8 +74,7 @@
 	cur = "!(if ! git diff HEAD --quiet; then echo -e \"HEAD - \\033[1;31mLocal changes\\033[m\"; echo; git --no-pager diff --name-status HEAD; fi; git --no-pager logn $(git br)..)|less -+C -FXRSM"
 	cleanf = clean -xdf
 	cleanff = clean -Xdf
-	whoami = "!f() { git config --get user.email; git config --get user.name; }; f"
+	whoami = "!f() { echo \"Author: $(git config --get user.name) <$(git config --get user.email)>\"; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"
 	rh = "!f() { cb=$(git br); co=$(git config --get branch.$cb.remote); echo -e This will run: \"\\t\\tgit fetch $co \"'&&'\" git reset --hard $co/$cb\"; echo -n "Press Enter to continue [Ctrl-C to cancel] "; read -s; git fetch $co && git reset --hard $co/$cb; }; f"
-
 
