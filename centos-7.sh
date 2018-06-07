@@ -16,7 +16,6 @@ getpart desktop-tools-yum
 log "Installing python3"
 getpart python3
 
-
 parts="chrome-rpm"
 readparam installeclipse "should install eclipse? (Y/N)[N]" N
 if [[ $installeclipse == "Y" ]]; then parts=$parts" maven eclipse"; fi

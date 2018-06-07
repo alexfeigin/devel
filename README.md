@@ -16,6 +16,8 @@ export develpwd="devel" # devel user password
 export develvncpwd="develpass" # vnc password for screen :1 and :2 (minimum 6 letters)
 export gituser="Devel Name"
 export gitemail="devel@company.com"
+export installeclipse="N" # Y/N
+export installeclion="Y" # Y/N
 EOF
 ```
 
