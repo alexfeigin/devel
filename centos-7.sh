@@ -16,8 +16,15 @@ getpart desktop-tools-yum
 log "Installing python3"
 getpart python3
 
-log "Install maven eclipse chrome-rpm async"
-for part in maven eclipse chrome-rpm; do
+
+parts="chrome-rpm"
+readparam installeclipse "should install eclipse? (Y/N)[N]" N
+if [[ $installeclipse == "Y" ]]; then parts=$parts" maven eclipse"; fi
+readparam installclion "should install clion? (Y/N)[N]" N
+if [[ $installclion == "Y" ]]; then parts=$parts" clion"; fi
+
+log "Install $parts async"
+for part in $parts; do
 	log "Installing $part"
 	getpart $part >> $logdir/$part.log 2>&1 &
 done
@@ -50,5 +57,8 @@ done
 
 log "Waiting for all async setups to complete"
 for job in `jobs -p`; do wait $job; done
+
+log "setting up devtoolset"
+setuppart devtoolset >> $logdir/devtoolset.log 2>&1
 
 log "Finished spinup of centos devel - please reboot and check"

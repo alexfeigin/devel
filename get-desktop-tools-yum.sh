@@ -17,6 +17,7 @@ nc \
 libffi-devel \
 openssl-devel \
 libpng-devel \
+libuuid-devel \
 freetype-devel \
 python-matplotlib \
 crudini \
