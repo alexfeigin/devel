@@ -4,7 +4,9 @@
 devtoolsetver=3
 log "Setup devtoolset-$devtoolsetver"
 
-yum install -y cmake devtoolset-$devtoolsetver-all
+yum install -y centos-release-scl
+yum-config-manager -y --enable rhel-server-rhscl-7-rpms
+yum install -y cmake devtoolset-$devtoolsetver-gcc
 
 home=/home/$develuser
 if [[ "$develuser" == "root" ]]; then home="/root"; fi
