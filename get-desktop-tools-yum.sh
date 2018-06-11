@@ -12,6 +12,9 @@ install python-{devel,setuptools,virtualenv} \
 tigervnc-server \
 yum-utils \
 unzip \
+jq \
+p7zip \
+p7zip-plugins \
 sshuttle \
 nc \
 libffi-devel \
@@ -37,5 +40,6 @@ tmux \
 mock \
 sshpass \
 zsh \
-git-review
+git-review \
+cmake3
 log Finished installing desktop and tools
