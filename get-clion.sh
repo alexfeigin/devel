@@ -41,11 +41,12 @@ else
 	Version=1.0
 	Comment=$clionname
 	Name=$clionname
-	Icon=/opt/$clionver/icon.xpm
-	Exec=/opt/$clionver/bin/clion.sh
+	Icon=/opt/$clionver/bin/clion.svg
+	Exec="/opt/$clionver/bin/clion.sh" %f
+	Categories=Development;IDE;
 	Terminal=false
-	Type=Application
-	Categories=GNOME;Development;IDE;Java;Programming;
+	StartupWMClass=jetbrains-clion
+	OnlyShowIn=Old;
 	EOF
 	chmod +x /usr/share/applications/"$clionver".desktop
 	log Finished
