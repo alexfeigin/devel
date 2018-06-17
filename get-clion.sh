@@ -2,13 +2,13 @@
 # setup clion
 . utils.sh
 
-clionver="clion-2018.1.3"
-clionname="CLion 2018.1.3"
+clionver="clion-2018.1.5"
+clionname="CLion 2018.1.5"
 if [[ -e /opt/$clionver ]]; then
 	log "CLion already installed"
 else
-	tarname="CLion-2018.1.3.tar.gz"
-	getproxy clion "https://download-cf.jetbrains.com/cpp/CLion-2018.1.3.tar.gz"
+	tarname="CLion-2018.1.5.tar.gz"
+	getproxy clion "https://download-cf.jetbrains.com/cpp/CLion-2018.1.5.tar.gz"
 	. .proxies.sh
 	pushd /opt
 	log "Downloading $clionver from mirror $clionproxy"
