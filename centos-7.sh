@@ -1,5 +1,5 @@
 #!/bin/bash
-curl -sL https://rawgit.com/alexfeigin/devel/master/utils.sh > utils.sh
+curl -sL https://cdn.jsdelivr.net/gh/alexfeigin/devel/utils.sh > utils.sh
 . utils.sh
 logdir=/var/log/devel/init
 mkdir -p $logdir
