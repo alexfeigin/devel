@@ -12,7 +12,7 @@ fi
 getpart()
 {
 	local part=$1
-	wget -q https://rawgit.com/alexfeigin/devel/master/get-$part.sh -O get-$part.sh
+	wget -q https://cdn.jsdelivr.net/gh/alexfeigin/devel/get-$part.sh -O get-$part.sh
 	if [[ -e ./get-$part.sh ]] && [[ -s ./get-$part.sh ]]; then
 		chmod +x ./get-$part.sh
 		log "Getting $part"
@@ -34,7 +34,7 @@ complete -F _getpart_complete "getpart"
 setuppart()
 {
 	local part=$1
-	wget -q https://rawgit.com/alexfeigin/devel/master/setup-$part.sh -O setup-$part.sh
+	wget -q https://cdn.jsdelivr.net/gh/alexfeigin/devel/setup-$part.sh -O setup-$part.sh
 	if [[ -e ./setup-$part.sh ]] && [[ -s ./setup-$part.sh ]]; then
 		chmod +x ./setup-$part.sh
 		log "Setup $part"
