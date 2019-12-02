@@ -23,7 +23,7 @@ X-GNOME-Autostart-enabled=true
 EOF
 
 #log "install chrome-gnome-shell addon to let users install from gnome extension website"
-#wget -q https://rawgit.com/alexfeigin/devel/master/chrome-gnome-shell-1.0-1.x86_64.rpm
+#wget -q https://cdn.jsdelivr.net/gh/alexfeigin/devel/chrome-gnome-shell-1.0-1.x86_64.rpm
 #yum install -y chrome-gnome-shell-1.0-1.x86_64.rpm
 
 #https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation
