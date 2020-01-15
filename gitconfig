@@ -77,4 +77,6 @@
 	whoami = "!f() { echo \"Author: $(git config --get user.name) <$(git config --get user.email)>\"; }; f"
 	alias = "!f() { if [ $# == 2 ]; then git config --global alias.\"$@\"; else git config --get-regexp alias; fi; }; f"
 	rh = "!f() { cb=$(git br); co=$(git config --get branch.$cb.remote); echo -e This will run: \"\\t\\tgit fetch $co \"'&&'\" git reset --hard $co/$cb\"; echo -n "Press Enter to continue [Ctrl-C to cancel] "; read -s; echo; git fetch $co && git reset --hard $co/$cb; }; f"
+	uu = "!f() { git status -b -s | grep UU; }; f"
+	track = "!f() { localbranch=$(git rev-parse --abbrev-ref HEAD); git branch --set-upstream-to=origin/$localbranch $localbranch; }; f"
 
